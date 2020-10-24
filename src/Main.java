@@ -1,10 +1,9 @@
 import data.DataSet;
-import logi.Log;
+import logi.GreedSimulace;
+import logi.Simulace;
 import parser.Parser;
 
-import java.io.FileNotFoundException;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,7 +13,8 @@ public class Main {
         }
         Integer f = argumenty.get("-f");
         DataSet dataSet = Parser.parseFile(args[f + 1]);
-
-
+        Simulace simulace = new GreedSimulace(dataSet);
+        simulace.nextDay();
+        System.out.println(simulace.getLog());
     }
 }

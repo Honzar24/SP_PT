@@ -13,6 +13,11 @@ public class Objednavka implements Comparable<Objednavka> {
 
     @Override
     public int compareTo(Objednavka objednavka) {
-        return Integer.compare(this.mnostvi,objednavka.mnostvi);
+        return Integer.compare(this.mnostvi, objednavka.mnostvi);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Objednavka do supermarketu %d na zbozi %d v počtu %d ks", kam, zbozi, mnostvi);
     }
 }

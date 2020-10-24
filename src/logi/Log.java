@@ -1,44 +1,31 @@
 package logi;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class Log
-{
-    public enum MSG_Level
-    {
-        log(0), warning(1), alert(2), error(3);
-        public final int level;
-        MSG_Level(int level) {
-            this.level = level;
-        }
-    }
-    public static class Message
-    {
-        public final String msg;
-        public final MSG_Level level;
+public class Log implements Logovatelne {
 
-        public Message(String msg, MSG_Level level) {
-            this.msg = msg;
-            this.level = level;
-        }
+    private List<Logovatelne> log = new LinkedList<>();
 
-        @Override
-        public String toString() {
-            return level+">"+msg;
-        }
-    }
-    private static List<Message> log=new LinkedList<>();
-
-    public static void log(String msg)
-    {
-        log.add(new Message(msg,MSG_Level.log));
+    public void log(String msg) {
+        log.add(new Message(msg, MSG_Level.info));
     }
 
-    public static void log(Message message)
+    public void log(Logovatelne log)
     {
-        log.add(message);
+        if (log.getSize()!=0)
+        this.log.add(log);
+    }
+
+    @Override
+    public String getLog() {
+        return log.stream().map(Logovatelne::getLog).collect(Collectors.joining("\n"));
+    }
+
+    @Override
+    public int getSize() {
+        return log.size();
     }
 
 }
