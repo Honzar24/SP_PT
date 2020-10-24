@@ -1,4 +1,4 @@
-package logi;
+package logi.log;
 
 import java.util.LinkedList;
 import java.util.List;

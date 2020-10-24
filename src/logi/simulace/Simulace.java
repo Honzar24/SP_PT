@@ -1,8 +1,10 @@
-package logi;
+package logi.simulace;
 
 
 import data.DataSet;
 import data.Objednavka;
+import logi.log.Log;
+import logi.log.Logovatelne;
 
 import java.util.List;
 

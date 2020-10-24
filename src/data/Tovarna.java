@@ -1,7 +1,7 @@
 package data;
 
-import logi.Log;
-import logi.PosunDen;
+import logi.log.Log;
+import logi.simulace.PosunDen;
 
 public class Tovarna implements PosunDen {
     private static int cislo = 0;

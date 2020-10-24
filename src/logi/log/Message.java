@@ -1,4 +1,4 @@
-package logi;
+package logi.log;
 
 public class Message implements Logovatelne {
     public final String msg;

@@ -1,6 +1,5 @@
 package data;
 
-import java.util.Arrays;
 
 public class SuperMarket {
     private static int pocet = 0;

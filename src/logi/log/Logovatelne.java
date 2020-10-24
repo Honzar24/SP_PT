@@ -1,4 +1,4 @@
-package logi;
+package logi.log;
 
 public interface Logovatelne {
 

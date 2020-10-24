@@ -1,6 +1,6 @@
 import data.DataSet;
-import logi.GreedSimulace;
-import logi.Simulace;
+import logi.simulace.GreedSimulace;
+import logi.simulace.Simulace;
 import parser.Parser;
 
 import java.util.HashMap;
