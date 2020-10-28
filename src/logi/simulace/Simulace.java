@@ -5,8 +5,6 @@ import data.DataSet;
 import data.Objednavka;
 import logi.log.Log;
 import logi.log.Logovatelne;
-import logi.log.MSG_Level;
-import logi.log.Message;
 
 import java.util.List;
 
@@ -23,13 +21,16 @@ public abstract class Simulace implements Logovatelne {
 
     public final Log nextDay() {
         if (!konec) {
+            if (den > 0)
+                log.log("Končí den " + (den - 1));
+
             for (int i = 0; i < dataSet.tovarny.length; i++) {
                 log.log(dataSet.tovarny[i].nastavDen(den));
             }
             log.log("Začátek dne " + den);
             log.log(zpracovaniObjednavek(dataSet.objednavky[den]));
-            log.log("Končí den " + den);
-            if (dataSet.T == ++den) {
+
+            if (dataSet.T == ++den || konec) {
                 konec = true;
                 log.log("Konec simulace");
             }
@@ -44,7 +45,6 @@ public abstract class Simulace implements Logovatelne {
     }
 
     protected void ukonciSimulaci() {
-        log.log(new Message("Simulace byla ukončena!", MSG_Level.alert));
         konec = true;
     }
 

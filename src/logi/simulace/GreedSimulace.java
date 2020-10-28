@@ -33,7 +33,7 @@ public class GreedSimulace extends Simulace {
                 int zboziZezasob = chteneMnostvi - zasoby;
                 if (zboziZezasob >= 0) {
                     log.log(String.format("Supermarket %d využil svoje zásoby zboží %d v počtu %d zbývá %d ks zásob", cisloSupermarketu, cisloChtenehoZbozi, chteneMnostvi, zboziZezasob));
-                    return log;
+                    continue;
                 } else
                 //zásoby nestačily
                 {
@@ -47,7 +47,7 @@ public class GreedSimulace extends Simulace {
                 Cesta cesta = superMarket.cesty[index++];
                 int cisloTovarny = cesta.kam;
                 int dostupneZbozi = dataSet.tovarny[cisloTovarny].sklad[cisloChtenehoZbozi];
-                int cenaDodavky = 0;
+                int cenaDodavky;
 
                 if (dostupneZbozi > 0) {
                     int roz = dostupneZbozi - chteneMnostvi;
@@ -57,6 +57,7 @@ public class GreedSimulace extends Simulace {
                         ak.addCena(cenaDodavky);
                         log.log(String.format("Supermarket %d dostal %d ks zbozi druhu %d za %d Kč",
                                 cisloSupermarketu, chteneMnostvi, cisloChtenehoZbozi, cenaDodavky));
+                        chteneMnostvi = 0;
                         break;
                     } else {
                         dataSet.tovarny[cisloTovarny].sklad[cisloChtenehoZbozi] = 0;
@@ -69,7 +70,7 @@ public class GreedSimulace extends Simulace {
                 }
             }
 
-            if (chteneMnostvi > 0 && index > superMarket.cesty.length) {
+            if (chteneMnostvi > 0) {
                 log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zbozi druhu %d", cisloSupermarketu, chteneMnostvi, cisloChtenehoZbozi), MSG_Level.alert));
                 ukonciSimulaci();
                 return log;
