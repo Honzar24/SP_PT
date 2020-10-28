@@ -5,7 +5,6 @@ import java.util.List;
 
 public class DataSet {
     public final int D, S, Z, T;
-    public int[][] cenaCest;
     public SuperMarket[] superMarkety;
     public Tovarna[] tovarny;
     public List<Objednavka>[] objednavky;
@@ -15,7 +14,6 @@ public class DataSet {
         S = pocetSupermarketu;
         Z = pocetDruhuZbozi;
         T = pocetDni;
-        cenaCest = new int[D][S];
         superMarkety = new SuperMarket[S];
         tovarny = new Tovarna[D];
         objednavky = new List[T];
@@ -35,8 +33,8 @@ public class DataSet {
     @Override
     public String toString() {
         int suma = 0;
-        for (int i = 0; i < objednavky.length; i++) {
-            suma += objednavky[i].size();
+        for (List<Objednavka> list : objednavky) {
+            suma += list.size();
         }
         return "DataSet{" + String.format("D=%d,S=%d,Z=%d,T=%d,aktualní počet objednávek:%d", D, S, Z, T, suma) + "}";
     }

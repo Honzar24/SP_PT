@@ -23,7 +23,7 @@ public class Parser {
         } catch (FileNotFoundException e) {
             System.err.println(e);
         }
-        Stream<String> lines = reader.lines().map(s -> s.trim()).filter(s -> !s.startsWith("#") && !s.isEmpty());
+        Stream<String> lines = reader.lines().map(String::trim).filter(s -> !s.startsWith("#") && !s.isEmpty());
         return parse(lines);
     }
 
@@ -41,7 +41,6 @@ public class Parser {
         for (int i = 0; i < cenaCest.length; i++) {
             cenaCest[i] = numbers.remove(0);
         }
-        dataSet.cenaCest = cenaCest;
 
         int[][] zasoby = new int[dataSet.Z][dataSet.S];
         for (int i = 0; i < zasoby.length; i++) {
@@ -50,8 +49,13 @@ public class Parser {
 
 
         SuperMarket[] superMarkets = new SuperMarket[dataSet.S];
+
         for (int i = 0; i < superMarkets.length; i++) {
-            superMarkets[i] = new SuperMarket(dataSet.Z);
+            int[] cenyCest = new int[dataSet.D];
+            for (int j = 0; j < cenyCest.length; j++) {
+                cenyCest[j] = cenaCest[j][i];
+            }
+            superMarkets[i] = new SuperMarket(dataSet.Z, cenyCest);
         }
 
         for (int i = 0; i < zasoby.length; i++) {
