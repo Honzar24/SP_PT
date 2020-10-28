@@ -98,7 +98,9 @@ public class Parser {
         for (int zbozi = 0; zbozi < poptavka.length; zbozi++) {
             for (int den = 0; den < poptavka[zbozi].length; den++) {
                 for (int supermaket = 0; supermaket < poptavka[zbozi][den].length; supermaket++) {
-                    dataSet.addObjednavka(new Objednavka(supermaket, zbozi, poptavka[zbozi][den][supermaket]), den);
+                    if (poptavka[zbozi][den][supermaket] > 0) {
+                        dataSet.addObjednavka(new Objednavka(supermaket, zbozi, poptavka[zbozi][den][supermaket]), den);
+                    }
                 }
             }
         }

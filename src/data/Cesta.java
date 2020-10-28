@@ -1,8 +1,8 @@
 package data;
 
 public class Cesta implements Comparable<Cesta> {
-    private final int kam;
-    private final int cena;
+    public final int kam;
+    public final int cena;
 
     public Cesta(int kam, int cena) {
         this.kam = kam;

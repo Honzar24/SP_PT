@@ -14,7 +14,10 @@ public class Main {
         Integer f = argumenty.get("-f");
         DataSet dataSet = Parser.parseFile(args[f + 1]);
         Simulace simulace = new GreedSimulace(dataSet);
-        simulace.nextDay();
+        while (!simulace.skonceno()) {
+            simulace.nextDay();
+        }
         System.out.println(simulace.getLog());
+
     }
 }
