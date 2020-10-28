@@ -22,7 +22,7 @@ public class Objednavka implements Comparable<Objednavka> {
 
     @Override
     public int compareTo(Objednavka objednavka) {
-        return Integer.compare(this.mnostvi, objednavka.mnostvi);
+        return Integer.compare(objednavka.mnostvi, this.mnostvi);
     }
 
     @Override

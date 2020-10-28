@@ -30,14 +30,18 @@ public class GreedSimulace extends Simulace {
 
 
             if (zasoby > 0) {
-                int zboziZezasob = chteneMnostvi - zasoby;
+                int zboziZezasob = zasoby - chteneMnostvi;
                 if (zboziZezasob >= 0) {
-                    log.log(String.format("Supermarket %d využil svoje zásoby zboží %d v počtu %d zbývá %d ks zásob", cisloSupermarketu, cisloChtenehoZbozi, chteneMnostvi, zboziZezasob));
+                    log.log(String.format("Supermarket %d využil svoje zásoby zboží %d v počtu %d zbývá %d ks zásob",
+                            cisloSupermarketu, cisloChtenehoZbozi, chteneMnostvi, zboziZezasob));
                     continue;
                 } else
                 //zásoby nestačily
                 {
-                    chteneMnostvi = Math.abs(zasoby);
+                    superMarket.zasoby[cisloChtenehoZbozi] = 0;
+                    log.log(String.format("Supermarket %d využil svoje zásoby zboží %d v počtu %d zbývá %d ks zásob",
+                            cisloSupermarketu, cisloChtenehoZbozi, zasoby, superMarket.zasoby[cisloChtenehoZbozi]));
+                    chteneMnostvi = Math.abs(zboziZezasob);
                 }
             }
             // pokryti poptavky z tovaten

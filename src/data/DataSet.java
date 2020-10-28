@@ -1,5 +1,7 @@
 package data;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +30,10 @@ public class DataSet {
 
     public boolean addObjednavka(Objednavka novaObjednavka, int den) {
         return objednavky[den].add(novaObjednavka);
+    }
+
+    public int getCelkovaCena() {
+        return Arrays.stream(objednavky).flatMap(Collection::stream).mapToInt(Objednavka::getCena).sum();
     }
 
     @Override
