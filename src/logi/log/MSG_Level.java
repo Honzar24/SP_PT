@@ -2,7 +2,7 @@ package logi.log;
 
 
 public enum MSG_Level {
-    info(0), warning(1), alert(2), error(3);
+    info(0), Sklad(1), Zasobovani(1), warning(3), alert(4), error(5);
     public final int level;
 
     MSG_Level(int level) {
