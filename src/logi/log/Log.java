@@ -6,16 +6,16 @@ import java.util.stream.Collectors;
 
 public class Log implements Logovatelne {
 
-    private List<Logovatelne> log = new LinkedList<>();
+    private final List<Logovatelne> log = new LinkedList<>();
 
     public void log(String msg) {
-        log.add(new Message(msg, MSG_Level.info));
+        log.add(new Message(msg, MSG_Level.Info));
     }
 
-    public void log(Logovatelne log)
-    {
-        if (log.getSize()!=0)
-        this.log.add(log);
+    public void log(Logovatelne log) {
+        if (log.getSize() != 0) {
+            this.log.add(log);
+        }
     }
 
     @Override

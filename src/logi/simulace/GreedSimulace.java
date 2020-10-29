@@ -73,7 +73,7 @@ public class GreedSimulace extends Simulace {
             }
 
             if (chteneMnostvi > 0) {
-                log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zbozi druhu %d", cisloSupermarketu, chteneMnostvi, cisloZbozi), MSG_Level.alert));
+                log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zbozi druhu %d", cisloSupermarketu, chteneMnostvi, cisloZbozi), MSG_Level.Alert));
                 ukonciSimulaci();
                 return log;
             }

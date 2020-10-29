@@ -5,10 +5,7 @@ import data.Objednavka;
 import data.SuperMarket;
 import data.Tovarna;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -17,19 +14,24 @@ import java.util.stream.Stream;
 
 public class Parser {
     public static DataSet parseFile(String filePath) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(new File(filePath)));
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)))) {
+            Stream<String> lines = reader.lines().map(String::trim).filter(s -> !s.startsWith("#") && !s.isEmpty());
+            return parse(lines);
         } catch (FileNotFoundException e) {
             System.err.println(e);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        Stream<String> lines = reader.lines().map(String::trim).filter(s -> !s.startsWith("#") && !s.isEmpty());
-        return parse(lines);
+        return null;
     }
 
     public static DataSet parse(Stream<String> lines) {
         List<int[]> numbers = lines
-                .map(line -> Pattern.compile(" ").splitAsStream(line).filter(s -> !s.isEmpty()).mapToInt(Integer::parseInt))
+                .map(line -> Pattern.compile(" ").splitAsStream(line)
+                        .filter(s -> !s.isEmpty())
+                        .mapToInt(Integer::parseInt)
+                )
                 .map(IntStream::toArray)
                 .collect(Collectors.toList());
 
