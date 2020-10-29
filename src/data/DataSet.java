@@ -7,9 +7,9 @@ import java.util.List;
 
 public class DataSet {
     public final int D, S, Z, T;
-    public SuperMarket[] superMarkety;
-    public Tovarna[] tovarny;
-    public List<Objednavka>[] objednavky;
+    private final List<Objednavka>[] objednavky;
+    private SuperMarket[] superMarkety;
+    private Tovarna[] tovarny;
 
     public DataSet(int pocetTovaren, int pocetSupermarketu, int pocetDruhuZbozi, int pocetDni) {
         D = pocetTovaren;
@@ -32,8 +32,52 @@ public class DataSet {
         return objednavky[den].add(novaObjednavka);
     }
 
+    public void setZasobySupermarketu(int supermarket, int zbozi, int zasoby) {
+        superMarkety[supermarket].zasoby[zbozi] = zasoby;
+    }
+
+    public int getZasobySupermarketu(int supermarket, int zbozi) {
+        return superMarkety[supermarket].zasoby[zbozi];
+    }
+
+    public int getPocetCest(int supermarket) {
+        return superMarkety[supermarket].cesty.length;
+    }
+
     public int getCelkovaCena() {
         return Arrays.stream(objednavky).flatMap(Collection::stream).mapToInt(Objednavka::getCena).sum();
+    }
+
+    public Cesta getCesta(int supermarket, int i) {
+        return superMarkety[supermarket].cesty[i];
+    }
+
+    public int getDostupneZbozi(int tovarna, int zbozi) {
+        return tovarny[tovarna].sklad[zbozi];
+    }
+
+    public void setDostupneZboziTovarny(int tovarna, int zbozi, int mnozstvi) {
+        tovarny[tovarna].sklad[zbozi] = mnozstvi;
+    }
+
+    public void setTovarny(Tovarna[] tovarny) {
+        this.tovarny = tovarny;
+    }
+
+    public void setSuperMarkety(SuperMarket[] superMarkety) {
+        this.superMarkety = superMarkety;
+    }
+
+    public Tovarna getTovarna(int tovarna) {
+        return tovarny[tovarna];
+    }
+
+    public List<Objednavka> getObjednavky(int den) {
+        return objednavky[den];
+    }
+
+    public int getCelkovaCena(int den) {
+        return getObjednavky(den).stream().mapToInt(Objednavka::getCena).sum();
     }
 
     @Override
@@ -42,6 +86,6 @@ public class DataSet {
         for (List<Objednavka> list : objednavky) {
             suma += list.size();
         }
-        return "DataSet{" + String.format("D=%d,S=%d,Z=%d,T=%d,aktualní počet objednávek:%d", D, S, Z, T, suma) + "}";
+        return "DataSet{" + String.format("D=%d,S=%d,Z=%d,T=%d,počet objednávek:%d", D, S, Z, T, suma) + "}";
     }
 }

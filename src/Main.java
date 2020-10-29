@@ -14,10 +14,13 @@ public class Main {
         Integer f = argumenty.get("-f");
         DataSet dataSet = Parser.parseFile(args[f + 1]);
         Simulace simulace = new GreedSimulace(dataSet);
+        long start = System.nanoTime();
         while (!simulace.skonceno()) {
             simulace.nextDay();
         }
+        long stop = System.nanoTime();
         System.out.println(simulace.getLog());
+        System.out.printf("Čas simulace v ms %d\n", (stop - start) / 1000000);
 
     }
 }

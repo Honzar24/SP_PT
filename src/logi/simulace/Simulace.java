@@ -23,18 +23,18 @@ public abstract class Simulace implements Logovatelne {
         if (!konec) {
             if (den > 0) {
                 log.log("Končí den " + (den - 1));
-                log.log(String.format("Celková cena za přepravu v tento den je %d Kč.", dataSet.objednavky[den - 1].stream().mapToInt(Objednavka::getCena).sum()));
+                log.log(String.format("Celková cena za přepravu v tento den je %d Kč.", dataSet.getCelkovaCena(den - 1)));
             }
 
-            for (int i = 0; i < dataSet.tovarny.length; i++) {
-                log.log(dataSet.tovarny[i].nastavDen(den));
+            for (int i = 0; i < dataSet.D; i++) {
+                log.log(dataSet.getTovarna(i).nastavDen(den));
             }
             log.log("Začátek dne " + den);
-            log.log(zpracovaniObjednavek(dataSet.objednavky[den]));
+            log.log(zpracovaniObjednavek(dataSet.getObjednavky(den)));
 
             if (dataSet.T == ++den || konec) {
                 konec = true;
-                log.log(String.format("Celková cena za přepravu v tento den je %d Kč.", dataSet.objednavky[den - 1].stream().mapToInt(Objednavka::getCena).sum()));
+                log.log(String.format("Celková cena za přepravu v tento den je %d Kč.", dataSet.getCelkovaCena(den - 1)));
                 log.log("Konec simulace");
                 log.log("Celková cena za vyřízení objednávek je " + dataSet.getCelkovaCena());
             }

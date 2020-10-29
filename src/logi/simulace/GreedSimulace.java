@@ -3,7 +3,6 @@ package logi.simulace;
 import data.Cesta;
 import data.DataSet;
 import data.Objednavka;
-import data.SuperMarket;
 import logi.log.Log;
 import logi.log.MSG_Level;
 import logi.log.Message;
@@ -21,61 +20,60 @@ public class GreedSimulace extends Simulace {
     public Log zpracovaniObjednavek(List<Objednavka> objednavky) {
         Log log = new Log();
         Collections.sort(objednavky);
-        for (Objednavka ak : objednavky) {
-            int chteneMnostvi = ak.mnostvi;
-            int cisloSupermarketu = ak.supermarket;
-            int cisloChtenehoZbozi = ak.zbozi;
-            SuperMarket superMarket = dataSet.superMarkety[cisloSupermarketu];
-            int zasoby = superMarket.zasoby[cisloChtenehoZbozi];
-
+        for (Objednavka objednavka : objednavky) {
+            int chteneMnostvi = objednavka.mnostvi;
+            int cisloSupermarketu = objednavka.supermarket;
+            int cisloZbozi = objednavka.zbozi;
+            int zasoby = dataSet.getZasobySupermarketu(cisloSupermarketu, cisloZbozi);
 
             if (zasoby > 0) {
                 int zboziZezasob = zasoby - chteneMnostvi;
                 if (zboziZezasob >= 0) {
                     log.log(String.format("Supermarket %d využil svoje zásoby zboží %d v počtu %d zbývá %d ks zásob",
-                            cisloSupermarketu, cisloChtenehoZbozi, chteneMnostvi, zboziZezasob));
+                            cisloSupermarketu, cisloZbozi, chteneMnostvi, zboziZezasob));
                     continue;
                 } else
                 //zásoby nestačily
                 {
-                    superMarket.zasoby[cisloChtenehoZbozi] = 0;
+                    dataSet.setZasobySupermarketu(cisloSupermarketu, cisloZbozi, 0);
                     log.log(String.format("Supermarket %d využil svoje zásoby zboží %d v počtu %d zbývá %d ks zásob",
-                            cisloSupermarketu, cisloChtenehoZbozi, zasoby, superMarket.zasoby[cisloChtenehoZbozi]));
+                            cisloSupermarketu, cisloZbozi, zasoby,
+                            dataSet.getZasobySupermarketu(cisloSupermarketu, cisloZbozi)));
                     chteneMnostvi = Math.abs(zboziZezasob);
                 }
             }
             // pokryti poptavky z tovaten
 
             int index = 0;
-            while (chteneMnostvi > 0 && index < superMarket.cesty.length) {
-                Cesta cesta = superMarket.cesty[index++];
+            while (chteneMnostvi > 0 && index < dataSet.getPocetCest(cisloSupermarketu)) {
+                Cesta cesta = dataSet.getCesta(cisloSupermarketu, index++);
                 int cisloTovarny = cesta.kam;
-                int dostupneZbozi = dataSet.tovarny[cisloTovarny].sklad[cisloChtenehoZbozi];
+                int dostupneZbozi = dataSet.getDostupneZbozi(cisloTovarny, cisloZbozi);
                 int cenaDodavky;
 
                 if (dostupneZbozi > 0) {
                     int roz = dostupneZbozi - chteneMnostvi;
                     if (roz >= 0) {
-                        dataSet.tovarny[cisloTovarny].sklad[cisloChtenehoZbozi] = roz;
+                        dataSet.setDostupneZboziTovarny(cisloTovarny, cisloZbozi, roz);
                         cenaDodavky = cesta.cena * chteneMnostvi;
-                        ak.addCena(cenaDodavky);
+                        objednavka.addCena(cenaDodavky);
                         log.log(String.format("Supermarket %d dostal %d ks zbozi druhu %d za %d Kč",
-                                cisloSupermarketu, chteneMnostvi, cisloChtenehoZbozi, cenaDodavky));
+                                cisloSupermarketu, chteneMnostvi, cisloZbozi, cenaDodavky));
                         chteneMnostvi = 0;
                         break;
                     } else {
-                        dataSet.tovarny[cisloTovarny].sklad[cisloChtenehoZbozi] = 0;
+                        dataSet.setDostupneZboziTovarny(cisloTovarny, cisloZbozi, 0);
                         cenaDodavky = cesta.cena * dostupneZbozi;
-                        ak.addCena(cenaDodavky);
+                        objednavka.addCena(cenaDodavky);
                         log.log(String.format("Supermarket %d dostal %d ks zbozi druhu %d za %d Kč",
-                                cisloSupermarketu, dostupneZbozi, cisloChtenehoZbozi, cenaDodavky));
+                                cisloSupermarketu, dostupneZbozi, cisloZbozi, cenaDodavky));
                         chteneMnostvi = Math.abs(roz);
                     }
                 }
             }
 
             if (chteneMnostvi > 0) {
-                log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zbozi druhu %d", cisloSupermarketu, chteneMnostvi, cisloChtenehoZbozi), MSG_Level.alert));
+                log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zbozi druhu %d", cisloSupermarketu, chteneMnostvi, cisloZbozi), MSG_Level.alert));
                 ukonciSimulaci();
                 return log;
             }

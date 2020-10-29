@@ -29,11 +29,11 @@ public class Parser {
 
     public static DataSet parse(Stream<String> lines) {
         List<int[]> numbers = lines
-                .map(line -> Pattern.compile(" ").splitAsStream(line).mapToInt(Integer::parseInt))
+                .map(line -> Pattern.compile(" ").splitAsStream(line).filter(s -> !s.isEmpty()).mapToInt(Integer::parseInt))
                 .map(IntStream::toArray)
                 .collect(Collectors.toList());
-        int[] head = numbers.remove(0);
 
+        int[] head = numbers.remove(0);
         DataSet dataSet = new DataSet(head);
 
 
@@ -64,7 +64,7 @@ public class Parser {
             }
         }
 
-        dataSet.superMarkety = superMarkets;
+        dataSet.setSuperMarkety(superMarkets);
 
         int[][][] produkce = new int[dataSet.Z][dataSet.T][dataSet.S];
         for (int i = 0; i < produkce.length; i++) {
@@ -86,7 +86,7 @@ public class Parser {
             }
         }
 
-        dataSet.tovarny = tovarny;
+        dataSet.setTovarny(tovarny);
 
         int[][][] poptavka = new int[dataSet.Z][dataSet.T][dataSet.S];
         for (int i = 0; i < poptavka.length; i++) {
