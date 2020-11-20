@@ -9,7 +9,7 @@ public class Log implements Logovatelne {
     private final List<Logovatelne> log = new LinkedList<>();
 
     public void log(String msg) {
-        log.add(new Message(msg, MSG_Level.Info));
+        log.add(new Message(msg, MsgLevel.INFO));
     }
 
     public void log(Logovatelne log) {

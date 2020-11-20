@@ -2,9 +2,9 @@ package logi.log;
 
 public class Message implements Logovatelne {
     public final String msg;
-    public final MSG_Level level;
+    public final MsgLevel level;
 
-    public Message(String msg, MSG_Level level) {
+    public Message(String msg, MsgLevel level) {
         this.msg = msg;
         this.level = level;
     }

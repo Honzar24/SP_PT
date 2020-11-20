@@ -1,8 +1,8 @@
 package data;
 
 import logi.log.Log;
-import logi.log.MSG_Level;
 import logi.log.Message;
+import logi.log.MsgLevel;
 import logi.simulace.PosunDen;
 
 public class Tovarna implements PosunDen {
@@ -22,7 +22,7 @@ public class Tovarna implements PosunDen {
         Log log = new Log();
         for (int i = 0; i < vyroba[cisloDne].length; i++) {
             if (sklad[i] != 0) {
-                log.log(new Message(String.format("Továrna %d vyhazuje zbozi %d v počtu %d ks", poradi, i, sklad[i]), MSG_Level.Sklad));
+                log.log(new Message(String.format("Továrna %d vyhazuje zbozi %d v počtu %d ks", poradi, i, sklad[i]), MsgLevel.SKLAD));
             }
             sklad[i] = vyroba[cisloDne][i];
         }
