@@ -58,7 +58,7 @@ public class Generovani {
             writer.write("\n# BLOK: Cena prevozu jednoho zbozi c_{s,d}\n");
             zapis_matici(writer, gen_prevoz(), s);
             writer.write("\n# BLOK: Pocatecni skladove zasoby q_{z,s}\n");
-            zapis_matici(writer, gen(z*s), z);
+            zapis_matici(writer, gen(z*s), s);
             writer.write("\n# BLOK: Produkce tovaren p_{d,z,t}\n");
             zapis_matici(writer, gen(d*z*t), d);
             writer.write("\n# BLOK: Poptavka zbozi r_{s,z,t}\n");
