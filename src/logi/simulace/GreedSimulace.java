@@ -18,7 +18,7 @@ public class GreedSimulace extends BaseSimulace {
 
     @Override
     public Log zpracovaniObjednavek(List<Objednavka> objednavky) {
-        Log log = new Log("Greedy zpracovani objednavek");
+        Log log = new Log("Greedy zpracovani objednavek pro den " + den);
         Collections.sort(objednavky);
         for (Objednavka objednavka : objednavky) {
             int chteneMnostvi = objednavka.mnostvi;
@@ -29,6 +29,7 @@ public class GreedSimulace extends BaseSimulace {
             if (zasoby > 0) {
                 int zboziZezasob = zasoby - chteneMnostvi;
                 if (zboziZezasob >= 0) {
+                    dataSet.setZasobySupermarketu(cisloSupermarketu, cisloZbozi, zboziZezasob);
                     log.log(new Message(String.format("Supermarket %d využil svoje zásoby zboží %d v počtu %d zbývá %d ks zásob",
                             cisloSupermarketu, cisloZbozi, chteneMnostvi, zboziZezasob), MsgLevel.SKLAD));
                     continue;
@@ -43,7 +44,6 @@ public class GreedSimulace extends BaseSimulace {
                 }
             }
             // pokryti poptavky z tovaten
-
             int index = 0;
             while (chteneMnostvi > 0 && index < dataSet.getPocetCest(cisloSupermarketu)) {
                 Cesta cesta = dataSet.getCesta(cisloSupermarketu, index++);

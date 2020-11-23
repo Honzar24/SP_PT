@@ -13,8 +13,8 @@ import java.util.List;
 
 public abstract class BaseSimulace implements Simulace {
     protected final DataSet dataSet;
-    protected int den;
     protected final Log log;
+    protected int den;
     protected boolean konec = false;
 
     public BaseSimulace(DataSet dataSet) {

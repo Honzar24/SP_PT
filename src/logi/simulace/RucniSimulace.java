@@ -65,6 +65,7 @@ public class RucniSimulace implements Simulace {
                 next(input);
                 break;
             case "info":
+
                 String patern = prikaz.trim().length() > 5 ? prikaz.trim().substring(5).toLowerCase().trim() + " " : "";
                 String infoLog = find(patern).getLog();
                 out.println(infoLog);

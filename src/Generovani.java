@@ -26,12 +26,12 @@ public class Generovani {
         }
     }
 
-    public static int[] gen_prevoz(){
+    public static int[] gen_prevoz() {
         int[] prevoz = new int[s * d];
-        for(int i = 0; i < prevoz.length; i++){
+        for (int i = 0; i < prevoz.length; i++) {
             int in = (int) (rand.nextGaussian() + 3);
-            while (in > 5 || in < 0){
-                in =(int) (rand.nextGaussian() + 3);
+            while (in > 5 || in < 0) {
+                in = (int) (rand.nextGaussian() + 3);
             }
             prevoz[i] = in;
         }

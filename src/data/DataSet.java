@@ -44,10 +44,6 @@ public class DataSet {
         return superMarkety[supermarket].cesty.length;
     }
 
-    public int getCelkovaCena() {
-        return Arrays.stream(objednavky).flatMap(Collection::stream).mapToInt(Objednavka::getCena).sum();
-    }
-
     public Cesta getCesta(int supermarket, int i) {
         return superMarkety[supermarket].cesty[i];
     }
@@ -78,6 +74,19 @@ public class DataSet {
 
     public int getCelkovaCena(int den) {
         return getObjednavky(den).stream().mapToInt(Objednavka::getCena).sum();
+    }
+
+    public int getCelkovaCena() {
+        int sum = Arrays.stream(objednavky).flatMap(Collection::stream).mapToInt(Objednavka::getCena).sum();
+        int suma = 0, msuma;
+        for (List<Objednavka> objednavkaList : objednavky) {
+            msuma = 0;
+            msuma += objednavkaList.stream().mapToInt(Objednavka::getCena).sum();
+            System.out.print(msuma + " ");
+            suma += msuma;
+        }
+        System.out.printf("\nsum= %d  suma= %d  pomer%f\n", sum, suma, sum / (double) suma);
+        return sum;
     }
 
     @Override
