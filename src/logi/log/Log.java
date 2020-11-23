@@ -59,4 +59,9 @@ public class Log implements Logovatelne {
     public void print(PrintWriter vystup) {
         log.forEach(e -> e.print(vystup));
     }
+
+    @Override
+    public String toString() {
+        return String.format("Log %s s počtem položek %d", name, getSize());
+    }
 }

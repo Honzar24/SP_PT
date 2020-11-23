@@ -27,13 +27,14 @@ public abstract class BaseSimulace implements Simulace {
         while (!skonceno()) {
             nextDay();
         }
+        ukonciSimulaci();
     }
 
     @Override
     public final Log nextDay() {
         if (!konec) {
             Log log = new Log("Den " + den);
-            Log vyhazovani = new Log("vyhazovani den " + den);
+            Log vyhazovani = new Log("zbytky den " + den);
             if (den > 0) {
                 vyhazovani.log("Vyhazovaní přebytků z dne " + (den - 1));
             }

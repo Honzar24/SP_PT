@@ -52,8 +52,9 @@ public class RucniSimulace implements Simulace {
                 out.print(help);
                 break;
             case "run":
-                out.println("");
+                out.println("Dokončuji simulaci");
                 simulace.run();
+                out.println("Simulace dokončena");
                 break;
             case "end":
                 out.println("");

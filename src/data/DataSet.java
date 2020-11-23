@@ -77,24 +77,12 @@ public class DataSet {
     }
 
     public int getCelkovaCena() {
-        int sum = Arrays.stream(objednavky).flatMap(Collection::stream).mapToInt(Objednavka::getCena).sum();
-        int suma = 0, msuma;
-        for (List<Objednavka> objednavkaList : objednavky) {
-            msuma = 0;
-            msuma += objednavkaList.stream().mapToInt(Objednavka::getCena).sum();
-            System.out.print(msuma + " ");
-            suma += msuma;
-        }
-        System.out.printf("\nsum= %d  suma= %d  pomer%f\n", sum, suma, sum / (double) suma);
-        return sum;
+        return Arrays.stream(objednavky).flatMap(Collection::stream).mapToInt(Objednavka::getCena).sum();
     }
 
     @Override
     public String toString() {
-        int suma = 0;
-        for (List<Objednavka> list : objednavky) {
-            suma += list.size();
-        }
+        int suma = Arrays.stream(objednavky).mapToInt(List::size).sum();
         return "DataSet{" + String.format("D=%d,S=%d,Z=%d,T=%d,počet objednávek:%d", D, S, Z, T, suma) + "}";
     }
 }
