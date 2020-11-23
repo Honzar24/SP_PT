@@ -66,13 +66,15 @@ public class RucniSimulace implements Simulace {
                 next(input);
                 break;
             case "info":
-
-                String patern = prikaz.trim().length() > 5 ? prikaz.trim().substring(5).toLowerCase().trim() + " " : "";
-                String infoLog = find(patern).getLog();
-                out.println(infoLog);
+                String[] paterns = prikaz.trim().substring(4).trim().split("&");
+                Logovatelne vysledek = find(paterns[0].trim() + " ");
+                for (int i = 1; i < paterns.length; i++) {
+                    vysledek.find(paterns[i].trim() + " ");
+                }
+                vysledek.print(out);
                 break;
             case "log":
-                out.println(getLog());
+                simulace.print(out);
                 break;
             default:
                 out.println("nerozpoznany příkaz zkus help " + input[0]);

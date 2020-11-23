@@ -11,10 +11,6 @@ public class Log implements Logovatelne {
     private final List<Logovatelne> log;
     private final String name;
 
-    public Log(List<Logovatelne> log) {
-        this.log = log;
-        name = "log";
-    }
 
     public Log() {
         this("Log");
@@ -23,6 +19,15 @@ public class Log implements Logovatelne {
     public Log(String jmeno) {
         log = new LinkedList<>();
         name = jmeno;
+    }
+
+    public Log(List<Logovatelne> log) {
+        this(log, "log");
+    }
+
+    public Log(List<Logovatelne> log, String nazev) {
+        this.log = log;
+        name = nazev;
     }
 
     public void log(String msg) {
@@ -49,10 +54,10 @@ public class Log implements Logovatelne {
     @Override
     public Logovatelne find(String patern) {
         if (name.toLowerCase().contains(patern.trim())) {
-            return this;
+            return new Log(this.log, "find " + patern);
         }
         List<Logovatelne> collect = log.stream().map(e -> e.find(patern)).filter(Objects::nonNull).filter(e -> e.getSize() > 0).collect(Collectors.toList());
-        return new Log(collect);
+        return new Log(collect, "find " + patern);
     }
 
     @Override

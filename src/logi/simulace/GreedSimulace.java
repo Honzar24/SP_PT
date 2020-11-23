@@ -25,7 +25,7 @@ public class GreedSimulace extends BaseSimulace {
             int cisloSupermarketu = objednavka.supermarket;
             int cisloZbozi = objednavka.zbozi;
             int zasoby = dataSet.getZasobySupermarketu(cisloSupermarketu, cisloZbozi);
-
+            //pokrytí poptávky ze zásob
             if (zasoby > 0) {
                 int zboziZezasob = zasoby - chteneMnostvi;
                 if (zboziZezasob >= 0) {
@@ -43,10 +43,10 @@ public class GreedSimulace extends BaseSimulace {
                     chteneMnostvi = Math.abs(zboziZezasob);
                 }
             }
-            // pokryti poptavky z tovaten
+            //pokryti poptavky z tovaten
             int index = 0;
-            while (chteneMnostvi > 0 && index < dataSet.getPocetCest(cisloSupermarketu)) {
-                Cesta cesta = dataSet.getCesta(cisloSupermarketu, index++);
+            do {
+                Cesta cesta = dataSet.getCesta(cisloSupermarketu, index);
                 int cisloTovarny = cesta.kam;
                 int dostupneZbozi = dataSet.getDostupneZbozi(cisloTovarny, cisloZbozi);
                 int cenaDodavky;
@@ -70,8 +70,7 @@ public class GreedSimulace extends BaseSimulace {
                         chteneMnostvi = Math.abs(roz);
                     }
                 }
-            }
-
+            } while (chteneMnostvi > 0 && ++index < dataSet.getPocetCest(cisloSupermarketu));
             if (chteneMnostvi > 0) {
                 log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zboží %d", cisloSupermarketu, chteneMnostvi, cisloZbozi), MsgLevel.ALERT));
                 ukonciSimulaci();

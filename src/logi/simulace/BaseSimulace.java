@@ -27,7 +27,6 @@ public abstract class BaseSimulace implements Simulace {
         while (!skonceno()) {
             nextDay();
         }
-        ukonciSimulaci();
     }
 
     @Override
@@ -38,18 +37,24 @@ public abstract class BaseSimulace implements Simulace {
             if (den > 0) {
                 vyhazovani.log("Vyhazovaní přebytků z dne " + (den - 1));
             }
-            for (int i = 0; i < dataSet.D; i++) {
-                vyhazovani.log(dataSet.getTovarna(i).nastavDen(den));
+            if (den < (dataSet.T)) {
+                for (int i = 0; i < dataSet.D; i++) {
+                    vyhazovani.log(dataSet.getTovarna(i).nastavDen(den));
+                }
             }
             log.log(vyhazovani);
             log.log(new Message("Začátek dne " + den, MsgLevel.INFO));
             log.log(zpracovaniObjednavek(dataSet.getObjednavky(den)));
             log.log(new Message(String.format("Končí den %d celková cena za přepravu v tento den je %d Kč.", den, dataSet.getCelkovaCena(den)), MsgLevel.INFO));
             this.log.log(log);
-            if (den < dataSet.T - 1) {
-                den++;
-            } else {
+            if (den >= (dataSet.T - 1)) {
                 ukonciSimulaci();
+            } else {
+                den++;
+            }
+            if (skonceno()) {
+                this.log.log(new Message("Konec simulace", MsgLevel.INFO));
+                this.log.log(new Message("Celková cena za vyřízení objednávek je " + dataSet.getCelkovaCena() + " Kč.", MsgLevel.INFO));
             }
         }
         return log;
@@ -65,8 +70,6 @@ public abstract class BaseSimulace implements Simulace {
     @Override
     public final void ukonciSimulaci() {
         konec = true;
-        log.log(new Message("Konec simulace", MsgLevel.INFO));
-        log.log(new Message("Celková cena za vyřízení objednávek je " + dataSet.getCelkovaCena() + " Kč.", MsgLevel.INFO));
     }
 
     @Override
