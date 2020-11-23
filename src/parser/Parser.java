@@ -5,7 +5,10 @@ import data.Objednavka;
 import data.SuperMarket;
 import data.Tovarna;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -18,8 +21,6 @@ public class Parser {
         try (BufferedReader reader = new BufferedReader(new FileReader(new File(filePath)))) {
             Stream<String> lines = reader.lines().map(String::trim).filter(s -> !s.startsWith("#") && !s.isEmpty());
             return parse(lines);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace(System.err);
         } catch (IOException e) {
             e.printStackTrace(System.err);
         }

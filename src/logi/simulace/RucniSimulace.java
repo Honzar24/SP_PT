@@ -2,6 +2,7 @@ package logi.simulace;
 
 
 import logi.log.Log;
+import logi.log.Logovatelne;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -13,9 +14,16 @@ public class RucniSimulace implements Simulace {
     private final Scanner in;
     private final PrintWriter out;
     private final Simulace simulace;
+    @SuppressWarnings("FieldCanBeLocal")
     private final String help = "Vítej v ručním ovládání\n" +
-            "už jsi zjistil že existuje příkaz help";
-    private boolean konec = false;
+            "už jsi zjistil že existuje příkaz help\n" +
+            "Další příkazy:\n" +
+            "\tnext [0-I] \nPosune simulaci o zadaný počet dnů. Pokud není zadáno číslo tak se simulace posune o jeden den.\n" +
+            "\texit\nUkončí simulaci okamžitě i její ovládání\n" +
+            "\tend | run\nDokončí simulaci a ukončí ovládání!\n" +
+            "\tinfo [hledaný výraz]\nNalezne v logu všechny výskyty hledaného výrazu." +
+            "\tlog\nVypíše dosavadní log simulace obsahující všechny informace.";
+    private boolean konec;
 
     public RucniSimulace(Simulace ovladanaSimulace) {
         this(ovladanaSimulace, System.in, System.out);
@@ -25,40 +33,82 @@ public class RucniSimulace implements Simulace {
         simulace = ovladanaSimulace;
         in = new Scanner(vstup);
         out = new PrintWriter(vystup, true);
+        konec = false;
     }
 
     @Override
     public void run() {
         out.println("Ruční ovládání Simulace aktivováno. Napiš help pro nápovědu.");
-        while (!konec || simulace.skonceno()) {
-            String[] input = getInput().trim().split(" ");
-            switch (input[0]) {
-                case "help":
-                case "h":
-                    out.println(help);
-                    break;
-                case "quit":
-                case "q":
-                    konec = true;
-                    break;
-                case "n":
-                case "next":
+        do {
+            vykonaniPrikazu(getPrikaz());
+        } while (!simulace.skonceno() || !konec);
+        out.println("Simulace ukončena\nRučni ovladani bylo ukončeno!");
+    }
 
-                    simulace.nextDay();
-                    break;
-                default:
-                    out.println("nerozpoznany příkaz zkus help " + input[0]);
-            }
+    private void vykonaniPrikazu(String prikaz) {
+        String[] input = prikaz.trim().split(" ");
+        switch (input[0]) {
+            case "help":
+                out.print(help);
+                break;
+            case "run":
+                out.println("");
+                simulace.run();
+                break;
+            case "end":
+                out.println("");
+                simulace.run();
+            case "exit":
+                ukonciSimulaci();
+                break;
+            case "next":
+                next(input);
+                break;
+            case "info":
+                String patern = prikaz.trim().length() > 5 ? prikaz.trim().substring(5).toLowerCase().trim() + " " : "";
+                String infoLog = find(patern).getLog();
+                out.println(infoLog);
+                break;
+            case "log":
+                out.println(getLog());
+                break;
+            default:
+                out.println("nerozpoznany příkaz zkus help " + input[0]);
         }
     }
 
-    private void vypis(String s) {
-        out.printf(s);
+    private void next(String[] input) {
+        try {
+            int pocet = input.length < 2 ? 1 : Integer.parseInt(input[1]);
+            out.println("Generuji simulaci pro " + pocet + " dní.");
+            for (int i = 0; i < pocet; i++) {
+                if (simulace.skonceno()) {
+                    ukonciSimulaci();
+                    break;
+                }
+                out.printf("Simuluji %d. den\n", getDen());
+                simulace.nextDay();
+            }
+        } catch (NumberFormatException e) {
+            out.println(input[1] + " není platné číslo.");
+        }
+    }
+
+    private String getPrikaz() {
+        out.printf("C>");
+        return in.nextLine();
     }
 
     @Override
     public boolean skonceno() {
-        return konec;
+        return simulace.skonceno();
+    }
+
+    @Override
+    public void ukonciSimulaci() {
+        konec = true;
+        simulace.ukonciSimulaci();
+        out.println("Simulace ukončena");
     }
 
     @Override
@@ -66,11 +116,10 @@ public class RucniSimulace implements Simulace {
         return simulace.nextDay();
     }
 
-    private String getInput() {
-        vypis("C>");
-        return in.nextLine();
+    @Override
+    public int getDen() {
+        return simulace.getDen();
     }
-
 
     @Override
     public String getLog() {
@@ -80,5 +129,15 @@ public class RucniSimulace implements Simulace {
     @Override
     public int getSize() {
         return simulace.getSize();
+    }
+
+    @Override
+    public Logovatelne find(String patern) {
+        return simulace.find(patern);
+    }
+
+    @Override
+    public void print(PrintWriter vystup) {
+        simulace.print(vystup);
     }
 }

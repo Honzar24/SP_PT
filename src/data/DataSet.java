@@ -28,8 +28,8 @@ public class DataSet {
         this(head[0], head[1], head[2], head[3]);
     }
 
-    public boolean addObjednavka(Objednavka novaObjednavka, int den) {
-        return objednavky[den].add(novaObjednavka);
+    public void addObjednavka(Objednavka novaObjednavka, int den) {
+        objednavky[den].add(novaObjednavka);
     }
 
     public void setZasobySupermarketu(int supermarket, int zbozi, int zasoby) {

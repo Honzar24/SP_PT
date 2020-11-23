@@ -18,7 +18,7 @@ public class GreedSimulace extends BaseSimulace {
 
     @Override
     public Log zpracovaniObjednavek(List<Objednavka> objednavky) {
-        Log log = new Log();
+        Log log = new Log("Greedy zpracovani objednavek");
         Collections.sort(objednavky);
         for (Objednavka objednavka : objednavky) {
             int chteneMnostvi = objednavka.mnostvi;
@@ -57,7 +57,7 @@ public class GreedSimulace extends BaseSimulace {
                         dataSet.setDostupneZboziTovarny(cisloTovarny, cisloZbozi, roz);
                         cenaDodavky = cesta.cena * chteneMnostvi;
                         objednavka.addCena(cenaDodavky);
-                        log.log(new Message(String.format("Supermarket %d dostal %d ks zbozi druhu %d za %d Kč z tovarny %d",
+                        log.log(new Message(String.format("Supermarket %d dostal %d ks zboží %d za %d Kč z tovarna %d",
                                 cisloSupermarketu, chteneMnostvi, cisloZbozi, cenaDodavky, cisloTovarny), MsgLevel.ZASOBOVANI));
                         chteneMnostvi = 0;
                         break;
@@ -65,7 +65,7 @@ public class GreedSimulace extends BaseSimulace {
                         dataSet.setDostupneZboziTovarny(cisloTovarny, cisloZbozi, 0);
                         cenaDodavky = cesta.cena * dostupneZbozi;
                         objednavka.addCena(cenaDodavky);
-                        log.log(new Message(String.format("Supermarket %d dostal %d ks zbozi druhu %d za %d Kč z tovarny %d",
+                        log.log(new Message(String.format("Supermarket %d dostal %d ks zboží %d za %d Kč z tovarna %d",
                                 cisloSupermarketu, dostupneZbozi, cisloZbozi, cenaDodavky, cisloTovarny), MsgLevel.ZASOBOVANI));
                         chteneMnostvi = Math.abs(roz);
                     }
@@ -73,7 +73,7 @@ public class GreedSimulace extends BaseSimulace {
             }
 
             if (chteneMnostvi > 0) {
-                log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zbozi druhu %d", cisloSupermarketu, chteneMnostvi, cisloZbozi), MsgLevel.ALERT));
+                log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zboží %d", cisloSupermarketu, chteneMnostvi, cisloZbozi), MsgLevel.ALERT));
                 ukonciSimulaci();
                 return log;
             }

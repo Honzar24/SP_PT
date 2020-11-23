@@ -3,13 +3,12 @@ package data;
 import logi.log.Log;
 import logi.log.Message;
 import logi.log.MsgLevel;
-import logi.simulace.PosunDen;
 
-public class Tovarna implements PosunDen {
+public class Tovarna {
     private static int cislo = 0;
     private final int poradi;
-    public int[] sklad;
-    public int[][] vyroba;
+    public final int[] sklad;
+    public final int[][] vyroba;
 
     public Tovarna(int pocetZbozi, int pocetDnu) {
         vyroba = new int[pocetDnu][pocetZbozi];
@@ -17,7 +16,6 @@ public class Tovarna implements PosunDen {
         poradi = cislo++;
     }
 
-    @Override
     public Log nastavDen(int cisloDne) {
         Log log = new Log();
         for (int i = 0; i < vyroba[cisloDne].length; i++) {

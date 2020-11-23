@@ -8,5 +8,9 @@ public interface Simulace extends Logovatelne {
 
     boolean skonceno();
 
+    void ukonciSimulaci();
+
     Log nextDay();
+
+    int getDen();
 }
