@@ -1,6 +1,8 @@
 package logi.simulace;
 
 
+import data.DataSet;
+import data.Objednavka;
 import logi.log.Log;
 import logi.log.Logovatelne;
 
@@ -65,19 +67,77 @@ public class RucniSimulace implements Simulace {
                 next(input);
                 break;
             case "info":
-                String[] paterns = prikaz.trim().substring(4).trim().split("&");
-                Logovatelne vysledek = simulace.find("");
-                for (int i = 0; i < paterns.length; i++) {
-                    vysledek = vysledek.find(paterns[i].trim().toLowerCase() + " ");
-                }
-                vysledek.print(out);
+                vypisInfo(prikaz);
                 break;
+            case "objednávka":
+                zadaniObjednavky();
             case "log":
                 simulace.print(out);
                 break;
             default:
                 out.println("nerozpoznany příkaz zkus help " + input[0]);
         }
+    }
+
+    private void zadaniObjednavky() {
+        Objednavka objednavka = vytvorObjednavku();
+        int den = zadejDen();
+        if (objednavka != null && den != -1) {
+            addObjednavka(objednavka, den);
+        } else {
+            out.println("Zadání objednávky selhalo zkuste to znovu!");
+        }
+    }
+
+    private void vypisInfo(String prikaz) {
+        String[] paterns = prikaz.trim().substring(4).trim().split("&");
+        Logovatelne vysledek = simulace.find("");
+        for (int i = 0; i < paterns.length; i++) {
+            vysledek = vysledek.find(paterns[i].trim().toLowerCase() + " ");
+        }
+        vysledek.print(out);
+    }
+
+    private int zadejDen() {
+        out.printf("Zadej den:");
+        String vztup = "";
+        try {
+            vztup = in.nextLine();
+            int zadanyDen = Integer.parseInt(vztup);
+            if (zadanyDen <= simulace.getDen()) {
+                out.println("Nemůžeš zadávat objednávky retrospektivně!");
+                return -1;
+            }
+            return zadanyDen;
+        } catch (NumberFormatException e) {
+            out.printf(vztup + " není platné číslo!\nZadávání objednávky selhalo ");
+            return -1;
+        }
+
+    }
+
+    private Objednavka vytvorObjednavku() {
+        int cisloSupermarketu;
+        int cisloZbozi;
+        int pocetZbozi;
+        String vztup = "";
+        try {
+            out.printf("Zadejte číslo zboží:");
+            vztup = in.nextLine();
+            cisloZbozi = Integer.parseInt(vztup);
+            out.printf("Zadejte množství zboži k objednání:");
+            vztup = in.nextLine();
+            pocetZbozi = Integer.parseInt(vztup);
+            out.printf("Do jakého supermarketu to mám odvést:");
+            vztup = in.nextLine();
+            cisloSupermarketu = Integer.parseInt(vztup);
+        } catch (NumberFormatException e) {
+            out.printf(vztup + " není platné číslo!\nZadávání objednávky selhalo ");
+            return null;
+        }
+        Objednavka objednavka = new Objednavka(cisloSupermarketu, cisloZbozi, pocetZbozi);
+        out.printf("Vytvořená objednávka:" + objednavka);
+        return objednavka;
     }
 
     private void next(String[] input) {
@@ -125,27 +185,12 @@ public class RucniSimulace implements Simulace {
     }
 
     @Override
-    public String getFullText() {
-        return simulace.getFullText();
+    public DataSet getDataSet() {
+        return simulace.getDataSet();
     }
 
     @Override
-    public String getShortText() {
-        return simulace.getShortText();
-    }
-
-    @Override
-    public int getSize() {
-        return simulace.getSize();
-    }
-
-    @Override
-    public Logovatelne find(String patern) {
-        return simulace.find(patern);
-    }
-
-    @Override
-    public void print(PrintWriter vystup) {
-        simulace.print(vystup);
+    public Logovatelne getLog() {
+        return simulace.getLog();
     }
 }

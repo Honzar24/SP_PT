@@ -1,9 +1,6 @@
 package parser;
 
-import data.DataSet;
-import data.Objednavka;
-import data.SuperMarket;
-import data.Tovarna;
+import data.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -52,7 +49,7 @@ public class Parser {
 
     private static DataSet vytvorDataSet(List<int[]> numbers) {
         int[] head = numbers.remove(0);
-        return new DataSet(head);
+        return new LinkedDataSet(head[0], head[1], head[2], head[3]);
     }
 
     private static void naplnObjednavky(DataSet dataSet, int[][][] poptavka) {
@@ -67,8 +64,8 @@ public class Parser {
         }
     }
 
-    private static int[][][] parsujPoptavku(List<int[]> numbers, DataSet dataSet) {
-        int[][][] poptavka = new int[dataSet.Z][dataSet.T][dataSet.S];
+    private static int[][][] parsujPoptavku(List<int[]> numbers, DataSetZakladniInfo dataSet) {
+        int[][][] poptavka = new int[dataSet.getPocetZbozi()][dataSet.getPocetDni()][dataSet.getPocetSupermarketu()];
         for (int i = 0; i < poptavka.length; i++) {
             for (int j = 0; j < poptavka[i].length; j++) {
                 poptavka[i][j] = numbers.remove(0);
@@ -87,16 +84,16 @@ public class Parser {
         }
     }
 
-    private static Tovarna[] vytvorTovarny(DataSet dataSet) {
-        Tovarna[] tovarny = new Tovarna[dataSet.D];
+    private static Tovarna[] vytvorTovarny(DataSetZakladniInfo dataSet) {
+        Tovarna[] tovarny = new Tovarna[dataSet.getPocetTovarny()];
         for (int i = 0; i < tovarny.length; i++) {
-            tovarny[i] = new Tovarna(dataSet.Z, dataSet.T);
+            tovarny[i] = new Tovarna(dataSet.getPocetZbozi(), dataSet.getPocetDni());
         }
         return tovarny;
     }
 
-    private static int[][][] parsujProdukci(List<int[]> numbers, DataSet dataSet) {
-        int[][][] produkce = new int[dataSet.Z][dataSet.T][dataSet.S];
+    private static int[][][] parsujProdukci(List<int[]> numbers, DataSetZakladniInfo dataSet) {
+        int[][][] produkce = new int[dataSet.getPocetZbozi()][dataSet.getPocetDni()][dataSet.getPocetSupermarketu()];
         for (int i = 0; i < produkce.length; i++) {
             for (int j = 0; j < produkce[i].length; j++) {
                 produkce[i][j] = numbers.remove(0);
@@ -105,15 +102,15 @@ public class Parser {
         return produkce;
     }
 
-    private static SuperMarket[] vytvorSupermarkety(DataSet dataSet, int[][] cenaCest, int[][] zasoby) {
-        SuperMarket[] superMarkets = new SuperMarket[dataSet.S];
+    private static SuperMarket[] vytvorSupermarkety(DataSetZakladniInfo dataSet, int[][] cenaCest, int[][] zasoby) {
+        SuperMarket[] superMarkets = new SuperMarket[dataSet.getPocetSupermarketu()];
 
         for (int i = 0; i < superMarkets.length; i++) {
-            int[] cenyCest = new int[dataSet.D];
+            int[] cenyCest = new int[dataSet.getPocetTovarny()];
             for (int j = 0; j < cenyCest.length; j++) {
                 cenyCest[j] = cenaCest[j][i];
             }
-            superMarkets[i] = new SuperMarket(dataSet.Z, cenyCest);
+            superMarkets[i] = new SuperMarket(dataSet.getPocetZbozi(), cenyCest);
         }
 
         for (int i = 0; i < zasoby.length; i++) {
@@ -124,16 +121,16 @@ public class Parser {
         return superMarkets;
     }
 
-    private static int[][] parsujZasoby(List<int[]> numbers, DataSet dataSet) {
-        int[][] zasoby = new int[dataSet.Z][dataSet.S];
+    private static int[][] parsujZasoby(List<int[]> numbers, DataSetZakladniInfo dataSet) {
+        int[][] zasoby = new int[dataSet.getPocetZbozi()][dataSet.getPocetSupermarketu()];
         for (int i = 0; i < zasoby.length; i++) {
             zasoby[i] = numbers.remove(0);
         }
         return zasoby;
     }
 
-    private static int[][] parsujCesty(List<int[]> numbers, DataSet dataSet) {
-        int[][] cenaCest = new int[dataSet.D][dataSet.S];
+    private static int[][] parsujCesty(List<int[]> numbers, DataSetZakladniInfo dataSet) {
+        int[][] cenaCest = new int[dataSet.getPocetTovarny()][dataSet.getPocetSupermarketu()];
         for (int i = 0; i < cenaCest.length; i++) {
             cenaCest[i] = numbers.remove(0);
         }

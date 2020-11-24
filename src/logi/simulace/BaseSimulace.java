@@ -8,7 +8,6 @@ import logi.log.Logovatelne;
 import logi.log.Message;
 import logi.log.MsgLevel;
 
-import java.io.PrintWriter;
 import java.util.List;
 
 public abstract class BaseSimulace implements Simulace {
@@ -37,8 +36,8 @@ public abstract class BaseSimulace implements Simulace {
             if (den > 0) {
                 vyhazovani.log("Vyhazovaní přebytků z den " + (den - 1));
             }
-            if (den < (dataSet.T)) {
-                for (int i = 0; i < dataSet.D; i++) {
+            if (den < (dataSet.getPocetDni())) {
+                for (int i = 0; i < dataSet.getPocetTovarny(); i++) {
                     vyhazovani.log(dataSet.getTovarna(i).nastavDen(den));
                 }
             }
@@ -47,7 +46,7 @@ public abstract class BaseSimulace implements Simulace {
             log.log(zpracovaniObjednavek(dataSet.getObjednavky(den)));
             log.log(new Message(String.format("Končí den %d celková cena za přepravu v tento den je %d Kč.", den, dataSet.getCelkovaCena(den)), MsgLevel.INFO));
             this.log.log(log);
-            if (den >= (dataSet.T - 1)) {
+            if (den >= (dataSet.getPocetDni() - 1)) {
                 ukonciSimulaci();
             } else {
                 den++;
@@ -73,32 +72,17 @@ public abstract class BaseSimulace implements Simulace {
     }
 
     @Override
-    public int getSize() {
-        return log.getSize();
-    }
-
-    @Override
-    public String getFullText() {
-        return log.getFullText();
-    }
-
-    @Override
-    public String getShortText() {
-        return log.getShortText();
-    }
-
-    @Override
     public int getDen() {
         return den;
     }
 
     @Override
-    public Logovatelne find(String patern) {
-        return log.find(patern);
+    public DataSet getDataSet() {
+        return dataSet;
     }
 
     @Override
-    public void print(PrintWriter vystup) {
-        log.print(vystup);
+    public Logovatelne getLog() {
+        return log;
     }
 }
