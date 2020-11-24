@@ -53,8 +53,8 @@ public abstract class BaseSimulace implements Simulace {
                 den++;
             }
             if (skonceno()) {
-                this.log.log(new Message("Konec simulace", MsgLevel.INFO));
-                this.log.log(new Message("Celková cena za vyřízení objednávek je " + dataSet.getCelkovaCena() + " Kč.", MsgLevel.INFO));
+                this.log.log(new Message("Konec simulace " + find("alert").getShortText(), MsgLevel.INFO));
+                this.log.log(new Message("Celková cena za vyřízených objednávek je " + dataSet.getCelkovaCena() + " Kč.", MsgLevel.INFO));
             }
         }
         return log;
@@ -78,8 +78,13 @@ public abstract class BaseSimulace implements Simulace {
     }
 
     @Override
-    public String getLog() {
-        return log.getLog();
+    public String getFullText() {
+        return log.getFullText();
+    }
+
+    @Override
+    public String getShortText() {
+        return log.getShortText();
     }
 
     @Override

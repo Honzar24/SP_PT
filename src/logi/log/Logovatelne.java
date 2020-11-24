@@ -2,7 +2,9 @@ package logi.log;
 
 public interface Logovatelne extends Printable {
 
-    String getLog();
+    String getFullText();
+
+    String getShortText();
 
     int getSize();
 

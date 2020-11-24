@@ -41,8 +41,13 @@ public class Log implements Logovatelne {
     }
 
     @Override
-    public String getLog() {
-        return log.stream().map(Logovatelne::getLog).collect(Collectors.joining("\n"));
+    public String getFullText() {
+        return log.stream().map(Logovatelne::getFullText).collect(Collectors.joining("\n"));
+    }
+
+    @Override
+    public String getShortText() {
+        return log.stream().map(Logovatelne::getShortText).collect(Collectors.joining("\n"));
     }
 
     @Override

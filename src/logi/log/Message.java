@@ -22,8 +22,13 @@ public class Message implements Logovatelne {
     }
 
     @Override
-    public String getLog() {
+    public String getFullText() {
         return toString();
+    }
+
+    @Override
+    public String getShortText() {
+        return msg;
     }
 
     @Override
@@ -32,7 +37,7 @@ public class Message implements Logovatelne {
     }
 
     private boolean contains(String patern) {
-        return getLog().toLowerCase().contains(patern);
+        return getFullText().toLowerCase().contains(patern);
     }
 
     @Override

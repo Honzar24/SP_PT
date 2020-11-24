@@ -125,8 +125,13 @@ public class RucniSimulace implements Simulace {
     }
 
     @Override
-    public String getLog() {
-        return simulace.getLog();
+    public String getFullText() {
+        return simulace.getFullText();
+    }
+
+    @Override
+    public String getShortText() {
+        return simulace.getShortText();
     }
 
     @Override
