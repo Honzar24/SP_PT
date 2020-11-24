@@ -26,7 +26,7 @@ public class Tovarna {
             }
             sklad[i] = vyroba[cisloDne][i];
         }
-        if (sumaVyhozenehoZbozi >= 0) {
+        if (sumaVyhozenehoZbozi > 0) {
             log.log(new Message(String.format("Továrna %d vyhodila v den %d celkově %d ks zboží.", poradi, cisloDne, sumaVyhozenehoZbozi), MsgLevel.SKLAD));
         }
         return log;
