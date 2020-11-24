@@ -16,7 +16,15 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * Hlavní třída pro spuštění simulátoru
+ */
 public class Main {
+    /**
+     * Funkce spouštící simulátor.
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         System.out.println("program byl spuštěn s argumenty: " + Arrays.toString(args));
         HashMap<String, Integer> argumenty = new HashMap<>();
