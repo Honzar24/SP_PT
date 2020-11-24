@@ -4,13 +4,13 @@ import data.Cesta;
 import data.DataSet;
 import data.Objednavka;
 import logi.log.Log;
-import logi.log.MSG_Level;
 import logi.log.Message;
+import logi.log.MsgLevel;
 
 import java.util.Collections;
 import java.util.List;
 
-public class GreedSimulace extends Simulace {
+public class GreedSimulace extends BaseSimulace {
 
     public GreedSimulace(DataSet dataSet) {
         super(dataSet);
@@ -18,7 +18,7 @@ public class GreedSimulace extends Simulace {
 
     @Override
     public Log zpracovaniObjednavek(List<Objednavka> objednavky) {
-        Log log = new Log();
+        Log log = new Log("Greedy zpracovani objednavek");
         Collections.sort(objednavky);
         for (Objednavka objednavka : objednavky) {
             int chteneMnostvi = objednavka.mnostvi;
@@ -30,7 +30,7 @@ public class GreedSimulace extends Simulace {
                 int zboziZezasob = zasoby - chteneMnostvi;
                 if (zboziZezasob >= 0) {
                     log.log(new Message(String.format("Supermarket %d využil svoje zásoby zboží %d v počtu %d zbývá %d ks zásob",
-                            cisloSupermarketu, cisloZbozi, chteneMnostvi, zboziZezasob), MSG_Level.Sklad));
+                            cisloSupermarketu, cisloZbozi, chteneMnostvi, zboziZezasob), MsgLevel.SKLAD));
                     continue;
                 } else
                 //zásoby nestačily
@@ -38,7 +38,7 @@ public class GreedSimulace extends Simulace {
                     dataSet.setZasobySupermarketu(cisloSupermarketu, cisloZbozi, 0);
                     log.log(new Message(String.format("Supermarket %d využil svoje zásoby zboží %d v počtu %d zbývá %d ks zásob",
                             cisloSupermarketu, cisloZbozi, zasoby,
-                            dataSet.getZasobySupermarketu(cisloSupermarketu, cisloZbozi)), MSG_Level.Sklad));
+                            dataSet.getZasobySupermarketu(cisloSupermarketu, cisloZbozi)), MsgLevel.SKLAD));
                     chteneMnostvi = Math.abs(zboziZezasob);
                 }
             }
@@ -57,23 +57,23 @@ public class GreedSimulace extends Simulace {
                         dataSet.setDostupneZboziTovarny(cisloTovarny, cisloZbozi, roz);
                         cenaDodavky = cesta.cena * chteneMnostvi;
                         objednavka.addCena(cenaDodavky);
-                        log.log(new Message(String.format("Supermarket %d dostal %d ks zbozi druhu %d za %d Kč z tovarny %d",
-                                cisloSupermarketu, chteneMnostvi, cisloZbozi, cenaDodavky, cisloTovarny), MSG_Level.Zasobovani));
+                        log.log(new Message(String.format("Supermarket %d dostal %d ks zboží %d za %d Kč z tovarna %d",
+                                cisloSupermarketu, chteneMnostvi, cisloZbozi, cenaDodavky, cisloTovarny), MsgLevel.ZASOBOVANI));
                         chteneMnostvi = 0;
                         break;
                     } else {
                         dataSet.setDostupneZboziTovarny(cisloTovarny, cisloZbozi, 0);
                         cenaDodavky = cesta.cena * dostupneZbozi;
                         objednavka.addCena(cenaDodavky);
-                        log.log(new Message(String.format("Supermarket %d dostal %d ks zbozi druhu %d za %d Kč z tovarny %d",
-                                cisloSupermarketu, dostupneZbozi, cisloZbozi, cenaDodavky, cisloTovarny), MSG_Level.Zasobovani));
+                        log.log(new Message(String.format("Supermarket %d dostal %d ks zboží %d za %d Kč z tovarna %d",
+                                cisloSupermarketu, dostupneZbozi, cisloZbozi, cenaDodavky, cisloTovarny), MsgLevel.ZASOBOVANI));
                         chteneMnostvi = Math.abs(roz);
                     }
                 }
             }
 
             if (chteneMnostvi > 0) {
-                log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zbozi druhu %d", cisloSupermarketu, chteneMnostvi, cisloZbozi), MSG_Level.Alert));
+                log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zboží %d", cisloSupermarketu, chteneMnostvi, cisloZbozi), MsgLevel.ALERT));
                 ukonciSimulaci();
                 return log;
             }

@@ -59,10 +59,9 @@ public class Generovani {
      * @throws IOException
      */
     public static void zapis_matici(BufferedWriter writer, int[] data, int del) throws IOException {
-
-        for(int i = 0; i < data.length; i++){
+        for (int i = 0; i < data.length; i++) {
             writer.write(data[i] + " ");
-            if((i+1) % del == 0){
+            if ((i + 1) % del == 0) {
                 writer.write("\n");
             }
         }
@@ -82,13 +81,10 @@ public class Generovani {
         return ints;
     }
 
-    /**
-     * Funkce spouštící generátor, spouští se bez parametrů
-     * @param args
-     */
-    public static void main(String[] args) {
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("data.txt"))) {
+	 
+    public static void generuj(String fileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            System.out.println("Generuji random data do souboru " + fileName);
             d = generuj_cislo(49) + 1;
             s = generuj_cislo(49) + 1;
             z = generuj_cislo(99) + 1;

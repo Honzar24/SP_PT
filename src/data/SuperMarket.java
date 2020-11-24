@@ -6,8 +6,8 @@ import java.util.Arrays;
 public class SuperMarket {
     private static int pocet = 0;
     public final int poradi;
-    public int[] zasoby;
-    public Cesta[] cesty;
+    public final int[] zasoby;
+    public final Cesta[] cesty;
 
     public SuperMarket(int pocetZbozi, int[] cenyCest) {
         poradi = pocet++;
