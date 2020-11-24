@@ -3,10 +3,11 @@ package logi.simulace;
 import data.*;
 import logi.log.Log;
 import logi.log.Logovatelne;
+import logi.log.Logujici;
 
 import java.util.List;
 
-public interface Simulace extends Logovatelne, DataSet {
+public interface Simulace extends Logujici, DataSet {
     void run();
 
     boolean skonceno();
@@ -19,7 +20,12 @@ public interface Simulace extends Logovatelne, DataSet {
 
     DataSet getDataSet();
 
-    Logovatelne getLog();
+    Logujici getLog();
+
+    @Override
+    default Logujici log(Logovatelne novaZprava) {
+        return getLog().log(novaZprava);
+    }
 
     @Override
     default void addObjednavka(Objednavka novaObjednavka, int den) {
@@ -49,6 +55,11 @@ public interface Simulace extends Logovatelne, DataSet {
     @Override
     default int getDostupneZbozi(int tovarna, int zbozi) {
         return getDataSet().getDostupneZbozi(tovarna, zbozi);
+    }
+
+    @Override
+    default int[] getSupermarketZasoby(int cisloSupermarketu) {
+        return getDataSet().getSupermarketZasoby(cisloSupermarketu);
     }
 
     @Override

@@ -72,7 +72,8 @@ public class GreedSimulace extends BaseSimulace {
                 }
             } while (chteneMnostvi > 0 && ++index < dataSet.getPocetCest(cisloSupermarketu));
             if (chteneMnostvi > 0) {
-                log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zboží %d v den %d", cisloSupermarketu, chteneMnostvi, cisloZbozi, den), MsgLevel.ALERT));
+                log.log(new Message(String.format("Supermarket %d nemohl být zásoben v počtu %d ks zboží %d v den %d",
+                        cisloSupermarketu, chteneMnostvi, cisloZbozi, den), MsgLevel.KONEC));
                 ukonciSimulaci();
                 return log;
             }

@@ -75,6 +75,11 @@ public class LinkedDataSet implements DataSet {
     }
 
     @Override
+    public int[] getSupermarketZasoby(int cisloSupermarketu) {
+        return superMarkety[cisloSupermarketu].zasoby;
+    }
+
+    @Override
     public void setDostupneZboziTovarny(int tovarna, int zbozi, int mnozstvi) {
         tovarny[tovarna].sklad[zbozi] = mnozstvi;
     }

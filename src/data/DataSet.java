@@ -21,4 +21,6 @@ public interface DataSet extends DataSetNaplneni, DataSetZakladniInfo {
     int getPocetCest(int supermarket);
 
     int getDostupneZbozi(int tovarna, int zbozi);
+
+    int[] getSupermarketZasoby(int cisloSupermarketu);
 }

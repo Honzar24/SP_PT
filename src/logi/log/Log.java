@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class Log implements Logovatelne {
+public class Log implements Logujici {
 
     private final List<Logovatelne> log;
     private final String name;
@@ -18,7 +18,7 @@ public class Log implements Logovatelne {
 
     public Log(String jmeno) {
         log = new LinkedList<>();
-        name = jmeno;
+        name = jmeno + " ";
     }
 
     public Log(List<Logovatelne> log) {
@@ -27,17 +27,19 @@ public class Log implements Logovatelne {
 
     public Log(List<Logovatelne> log, String nazev) {
         this.log = log;
-        name = nazev;
+        name = nazev + " ";
     }
 
     public void log(String msg) {
         log.add(new Message(msg, MsgLevel.INFO));
     }
 
-    public void log(Logovatelne log) {
+
+    public Logujici log(Logovatelne log) {
         if (log.getSize() != 0) {
             this.log.add(log);
         }
+        return this;
     }
 
     @Override
@@ -58,7 +60,7 @@ public class Log implements Logovatelne {
 
     @Override
     public Logovatelne find(String patern) {
-        if (name.toLowerCase().contains(patern.trim())) {
+        if (name.toLowerCase().contains(patern.trim() + " ")) {
             return new Log(this.log, "find " + patern);
         }
         List<Logovatelne> collect = log.stream().map(e -> e.find(patern)).filter(Objects::nonNull).filter(e -> e.getSize() > 0).collect(Collectors.toList());
