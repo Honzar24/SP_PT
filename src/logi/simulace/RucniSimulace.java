@@ -14,7 +14,6 @@ public class RucniSimulace implements Simulace {
     private final Scanner in;
     private final PrintWriter out;
     private final Simulace simulace;
-    @SuppressWarnings("FieldCanBeLocal")
     private final String help = "Vítej v ručním ovládání\n" +
             "už jsi zjistil že existuje příkaz help\n" +
             "Další příkazy:\n" +
@@ -67,9 +66,9 @@ public class RucniSimulace implements Simulace {
                 break;
             case "info":
                 String[] paterns = prikaz.trim().substring(4).trim().split("&");
-                Logovatelne vysledek = find(paterns[0].trim() + " ");
-                for (int i = 1; i < paterns.length; i++) {
-                    vysledek.find(paterns[i].trim() + " ");
+                Logovatelne vysledek = simulace.find("");
+                for (int i = 0; i < paterns.length; i++) {
+                    vysledek = vysledek.find(paterns[i].trim().toLowerCase() + " ");
                 }
                 vysledek.print(out);
                 break;

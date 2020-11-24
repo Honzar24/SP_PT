@@ -57,7 +57,7 @@ public class GreedSimulace extends BaseSimulace {
                         dataSet.setDostupneZboziTovarny(cisloTovarny, cisloZbozi, roz);
                         cenaDodavky = cesta.cena * chteneMnostvi;
                         objednavka.addCena(cenaDodavky);
-                        log.log(new Message(String.format("Supermarket %d dostal %d ks zboží %d za %d Kč z tovarna %d",
+                        log.log(new Message(String.format("Supermarket %d dostal %d ks zboží %d za %d Kč z továrna %d",
                                 cisloSupermarketu, chteneMnostvi, cisloZbozi, cenaDodavky, cisloTovarny), MsgLevel.ZASOBOVANI));
                         chteneMnostvi = 0;
                         break;
@@ -65,7 +65,7 @@ public class GreedSimulace extends BaseSimulace {
                         dataSet.setDostupneZboziTovarny(cisloTovarny, cisloZbozi, 0);
                         cenaDodavky = cesta.cena * dostupneZbozi;
                         objednavka.addCena(cenaDodavky);
-                        log.log(new Message(String.format("Supermarket %d dostal %d ks zboží %d za %d Kč z tovarna %d",
+                        log.log(new Message(String.format("Supermarket %d dostal %d ks zboží %d za %d Kč z továrna %d",
                                 cisloSupermarketu, dostupneZbozi, cisloZbozi, cenaDodavky, cisloTovarny), MsgLevel.ZASOBOVANI));
                         chteneMnostvi = Math.abs(roz);
                     }

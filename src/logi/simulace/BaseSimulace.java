@@ -35,7 +35,7 @@ public abstract class BaseSimulace implements Simulace {
             Log log = new Log("Den " + den);
             Log vyhazovani = new Log("zbytky den " + den);
             if (den > 0) {
-                vyhazovani.log("Vyhazovaní přebytků z dne " + (den - 1));
+                vyhazovani.log("Vyhazovaní přebytků z den " + (den - 1));
             }
             if (den < (dataSet.T)) {
                 for (int i = 0; i < dataSet.D; i++) {
@@ -43,7 +43,7 @@ public abstract class BaseSimulace implements Simulace {
                 }
             }
             log.log(vyhazovani);
-            log.log(new Message("Začátek dne " + den, MsgLevel.INFO));
+            log.log(new Message("Začátek den " + den, MsgLevel.INFO));
             log.log(zpracovaniObjednavek(dataSet.getObjednavky(den)));
             log.log(new Message(String.format("Končí den %d celková cena za přepravu v tento den je %d Kč.", den, dataSet.getCelkovaCena(den)), MsgLevel.INFO));
             this.log.log(log);
