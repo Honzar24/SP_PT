@@ -5,7 +5,15 @@ import parser.Parser;
 
 import java.util.HashMap;
 
+/**
+ * Hlavní třída pro spuštění simulátoru
+ */
 public class Main {
+    /**
+     * Funkce spouštící simulátor.
+     * Funkce si z parametrů předaných při spuštění vezme adresu dat, které následně převede do datasetu a spustí s nimi simulaci.
+     * @param args
+     */
     public static void main(String[] args) {
         HashMap<String, Integer> argumenty = new HashMap<>();
         for (int i = 0; i < args.length; i++) {
