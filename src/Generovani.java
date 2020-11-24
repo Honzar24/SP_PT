@@ -81,10 +81,13 @@ public class Generovani {
         return ints;
     }
 
-	 
+    /**
+     * Funkce spouštící generování dat a zapisující data do souboru
+     * @param fileName název souboru do kterého se zapíšou vygenerovaná data
+     */
     public static void generuj(String fileName) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
-            System.out.println("Generuji random data do souboru " + fileName);
+            System.out.println("Generuji náhodná data do souboru " + fileName);
             d = generuj_cislo(49) + 1;
             s = generuj_cislo(49) + 1;
             z = generuj_cislo(99) + 1;

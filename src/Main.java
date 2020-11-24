@@ -15,7 +15,7 @@ import java.util.Scanner;
 public class Main {
     /**
      * Funkce spouštící simulátor.
-     * Funkce si z parametrů předaných při spuštění vezme adresu dat, které následně převede do datasetu a spustí s nimi simulaci.
+     *
      * @param args
      */
     public static void main(String[] args) {
