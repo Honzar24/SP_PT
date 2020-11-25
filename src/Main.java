@@ -39,36 +39,53 @@ public class Main {
             System.out.println("Nebyl zadán soubor, jeho zadání povedete přidáním: -f soubor");
             return;
         }
-        String file = args[argumenty.get("-f") + 1];
+        int pozizeF = argumenty.get("-f");
+        String file = args.length < pozizeF + 1 ? args[+1] : "Nebyl zadán název";
         if (argumenty.containsKey("-g")) {
             Generovani.generuj(file);
             return;
         }
         DataSet dataSet = Parser.parseFile(file);
+        if (dataSet == null) {
+            return;
+        }
         Simulace simulace = new GreedSimulace(dataSet);
         if (argumenty.containsKey("-h") || argumenty.containsKey("-H")) {
             simulace = new RucniSimulace(simulace);
         }
+        long casBehu = behSimulace(simulace);
+        simulace.log(new Message("Čas běhu simulace v ms: " + casBehu, MsgLevel.INFO));
+        System.out.printf("Čas simulace v ms %d\n", casBehu);
+        vypsaniLogu(simulace);
+        vytvoreniStatictiky(simulace);
+    }
+
+    public static long behSimulace(Simulace simulace) {
         System.out.println("Spouštím simulaci");
         long start = System.nanoTime();
         simulace.run();
         long stop = System.nanoTime();
         System.out.println("Simulace dokončena");
-        long casBehu = (stop - start) / 1000000;
-        simulace.log(new Message("Čas běhu simulace v ms: " + casBehu, MsgLevel.INFO));
-        System.out.printf("Čas simulace v ms %d\n", casBehu);
-        System.out.print("Chcete vypsat log?(a/n)");
-        if (new Scanner(System.in).nextLine().trim().toLowerCase().startsWith("a")) {
-            simulace.print(new PrintWriter(System.out, true));
-        }
+        return (stop - start) / 1000000;
+    }
+
+    public static void vytvoreniStatictiky(Simulace simulace) {
         System.out.print("Chcete zapsat statistiku do souborů?(a/n)");
         if (new Scanner(System.in).nextLine().trim().toLowerCase().startsWith("a")) {
             generujStatistiky(simulace);
         }
     }
 
+    public static void vypsaniLogu(Simulace simulace) {
+        System.out.print("Chcete vypsat log?(a/n)");
+        if (new Scanner(System.in).nextLine().trim().toLowerCase().startsWith("a")) {
+            simulace.print(new PrintWriter(System.out, true));
+        }
+    }
+
     /**
      * Vygeneruje soubory do kterých se zapíší statistiky
+     *
      * @param simulace simulace která má být zapsaná
      */
     private static void generujStatistiky(Simulace simulace) {

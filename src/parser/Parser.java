@@ -27,7 +27,7 @@ public class Parser {
             Stream<String> lines = reader.lines().map(String::trim).filter(s -> !s.startsWith("#") && !s.isEmpty());
             return parse(lines);
         } catch (IOException e) {
-            e.printStackTrace(System.err);
+            System.out.printf("Vámi zadaný soubor(%s) neexistuje", filePath);
         }
         return null;
     }
