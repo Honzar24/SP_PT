@@ -10,12 +10,23 @@ import logi.log.MsgLevel;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Třída reprezentující automatickou simulaci
+ */
 public class GreedSimulace extends BaseSimulace {
-
+    /**
+     * Konstruktor třídy
+     * @param dataSet DataSet pro běh simulace
+     */
     public GreedSimulace(DataSet dataSet) {
         super(dataSet);
     }
 
+    /**
+     * Metoda se stará o zpracování objednávek, ověřuje zda je na skladě v továrnách dostatečné množství zboží k odeslání, jestli má supermarket případně sám dostatečné zásoby, nebo jestli továrny nejsou schopné zajistit dostatečný počet zboží
+     * @param objednavky list objednávek
+     * @return Log s informacemi o zpracování objednávek
+     */
     @Override
     public Log zpracovaniObjednavek(List<Objednavka> objednavky) {
         Log log = new Log("Greedy zpracovani objednavek pro den " + den);

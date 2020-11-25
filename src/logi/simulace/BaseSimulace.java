@@ -11,18 +11,40 @@ import logi.log.MsgLevel;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Třída reprezentující simulaci
+ */
 public abstract class BaseSimulace implements Simulace {
+    /**
+     * Data potřebná pro běh simulace
+     */
     protected final DataSet dataSet;
+    /**
+     * Log simulace s událostmi
+     */
     protected final Log log;
+    /**
+     * Aktuální den simulace
+     */
     protected int den;
+    /**
+     * Informace o konci simulace
+     */
     protected boolean konec = false;
 
+    /**
+     * Konstruktor vytvářející novou simulaci
+     * @param dataSet data pro běh simulace
+     */
     public BaseSimulace(DataSet dataSet) {
         this.dataSet = dataSet;
         this.log = new Log();
         log.log("Začátek Simulace");
     }
 
+    /**
+     * Metoda spouštící simulaci
+     */
     @Override
     public void run() {
         while (!skonceno()) {
@@ -30,6 +52,10 @@ public abstract class BaseSimulace implements Simulace {
         }
     }
 
+    /**
+     * Metoda posouvá simulaci o jeden den dopředu, veškeré informace o událostech ukládá do logu
+     * @return Log s informacemi o událostech během dne
+     */
     @Override
     public final Log nextDay() {
         if (!konec) {
@@ -74,28 +100,52 @@ public abstract class BaseSimulace implements Simulace {
         return log;
     }
 
+    /**
+     * Zpracuje objednávky v aktuálním dni simulace
+     * @param objednavky list objednávek
+     * @return Log s informacemi o zpracování objednávek
+     */
     protected abstract Log zpracovaniObjednavek(List<Objednavka> objednavky);
 
+    /**
+     * vrátí informaci o konci simulace (skončeno - true, běžící - false)
+     * @return informacr o konci simulace
+     */
     @Override
     public boolean skonceno() {
         return konec;
     }
 
+    /**
+     * Nastaví konec na true
+     */
     @Override
     public final void ukonciSimulaci() {
         konec = true;
     }
 
+    /**
+     * Vrátí číslo dne simulace
+     * @return číslo dne
+     */
     @Override
     public int getDen() {
         return den;
     }
 
+    /**
+     * Vrátí DataSet simulace
+     * @return DataSet simulace
+     */
     @Override
     public DataSet getDataSet() {
         return dataSet;
     }
 
+    /**
+     * Vrátí Log s informacemi o simulaci
+     * @return Log s informacemi
+     */
     @Override
     public Logujici getLog() {
         return log;

@@ -22,8 +22,12 @@ import java.util.Scanner;
 public class Main {
     /**
      * Funkce spouštící simulátor.
+     * Očekávané parametry:
+     * -f "adresa souboru" - pro spuštění simulátoru
+     * -f "adresa souboru" -h - pro spuštění ruční simulace
+     * -f "název souboru" -g - pro vygenerování souboru s daty
      *
-     * @param args
+     * @param args porametry spuštění
      */
     public static void main(String[] args) {
         System.out.println("program byl spuštěn s argumenty: " + Arrays.toString(args));
@@ -32,7 +36,7 @@ public class Main {
             argumenty.put(args[i], i);
         }
         if (!argumenty.containsKey("-f")) {
-            System.out.println("Nebyl zadán soubor jeho zadání povedete přidáním: -f soubor");
+            System.out.println("Nebyl zadán soubor, jeho zadání povedete přidáním: -f soubor");
             return;
         }
         String file = args[argumenty.get("-f") + 1];
@@ -63,6 +67,10 @@ public class Main {
         }
     }
 
+    /**
+     * Vygeneruje soubory do kterých se zapíší statistiky
+     * @param simulace simulace která má být zapsaná
+     */
     private static void generujStatistiky(Simulace simulace) {
         safePrint("MasterLog.txt", simulace);
         safePrint("Supermarkety.txt", simulace.find("zásoby den"));
@@ -78,10 +86,15 @@ public class Main {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.printf("Soubor %s nelze ovevřít!", "Tovarny.txt");
+            System.out.printf("Soubor %s nelze otevřít!", "Tovarny.txt");
         }
     }
 
+    /**
+     * Vygeneruje soubor a zapíše statistiky
+     * @param jmenoSouboru jméno generovaného souboru
+     * @param printable statistiky k zapsání
+     */
     private static void safePrint(String jmenoSouboru, Printable printable) {
         try (PrintWriter printWriter = new PrintWriter(new BufferedOutputStream(new FileOutputStream(jmenoSouboru)), true)) {
             printable.print(printWriter);

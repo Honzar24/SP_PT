@@ -58,7 +58,7 @@ public class Generovani {
      * @param writer sloužící k zapisování
      * @param data   pole čísel určených k zápisu
      * @param del    počet čísel v jednom řádku
-     * @throws IOException
+     * @throws IOException při chybě při zapisování
      */
     public static void zapis_matici(BufferedWriter writer, int[] data, int del) throws IOException {
         for (int i = 0; i < data.length; i++) {
@@ -74,7 +74,7 @@ public class Generovani {
      *
      * @param size velikost pole
      * @param max  maximální hodnota
-     * @return
+     * @return pole čísel
      */
     public static int[] generuj_pole(int size, int max) {
         int[] ints = new int[size];

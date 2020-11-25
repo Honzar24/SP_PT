@@ -26,8 +26,8 @@ public class SuperMarket {
 
     /**
      * Konstruktor třídy, inicializuje pole zásob a cest, vytvoří jednotlivé cesty a seřadí je
-     * @param pocetZbozi
-     * @param cenyCest
+     * @param pocetZbozi počet drůhů zboží
+     * @param cenyCest pole cen cest
      */
     public SuperMarket(int pocetZbozi, int[] cenyCest) {
         poradi = pocet++;
