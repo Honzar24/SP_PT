@@ -1,8 +1,11 @@
 package logi.simulace;
 
 
+import data.DataSet;
+import data.Objednavka;
 import logi.log.Log;
 import logi.log.Logovatelne;
+import logi.log.Logujici;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -14,7 +17,6 @@ public class RucniSimulace implements Simulace {
     private final Scanner in;
     private final PrintWriter out;
     private final Simulace simulace;
-    @SuppressWarnings("FieldCanBeLocal")
     private final String help = "Vítej v ručním ovládání\n" +
             "už jsi zjistil že existuje příkaz help\n" +
             "Další příkazy:\n" +
@@ -52,29 +54,118 @@ public class RucniSimulace implements Simulace {
                 out.print(help);
                 break;
             case "run":
-                out.println("");
+                out.println("Dokončuji simulaci");
                 simulace.run();
+                out.println("Simulace dokončena");
                 break;
             case "end":
-                out.println("");
+                out.println("Dokunčuji simulaci na příkaz uživatele");
                 simulace.run();
             case "exit":
-                ukonciSimulaci();
+                konec();
                 break;
             case "next":
                 next(input);
                 break;
             case "info":
-                String patern = prikaz.trim().length() > 5 ? prikaz.trim().substring(5).toLowerCase().trim() + " " : "";
-                String infoLog = find(patern).getLog();
-                out.println(infoLog);
+                vypisInfo(prikaz);
+                break;
+            case "objednávka":
+                zadaniObjednavky();
                 break;
             case "log":
-                out.println(getLog());
+                simulace.print(out);
                 break;
             default:
                 out.println("nerozpoznany příkaz zkus help " + input[0]);
         }
+    }
+
+    private void konec() {
+        if (!skonceno()) {
+            ukonciSimulaci();
+        } else {
+            konec = true;
+        }
+    }
+
+    private void zadaniObjednavky() {
+        Objednavka objednavka = vytvorObjednavku();
+        if (objednavka != null) {
+            int den = zadejDen();
+            if (den >= 0) {
+                addObjednavka(objednavka, den);
+                return;
+            }
+        }
+        out.println("Zadání objednávky selhalo zkuste to znovu!");
+    }
+
+    private void vypisInfo(String prikaz) {
+        String[] paterns = prikaz.trim().substring(4).trim().split("&");
+        Logovatelne vysledek = simulace.find("");
+        for (int i = 0; i < paterns.length; i++) {
+            vysledek = vysledek.find(paterns[i].trim().toLowerCase() + " ");
+        }
+        vysledek.print(out);
+    }
+
+    private int zadejDen() {
+        out.printf("Zadej den:");
+        String vztup = "";
+        try {
+            vztup = in.nextLine();
+            int zadanyDen = Integer.parseInt(vztup);
+            if (zadanyDen < simulace.getDen()) {
+                out.println("Nemůžeš zadávat objednávky retrospektivně!");
+                return -1;
+            }
+            if (zadanyDen >= getPocetDni()) {
+                out.println("Nemůžeš zadávat objednávky mimo simulovaný úsek! Maximum je " + (getPocetDni() - 1));
+                return -1;
+            }
+            return zadanyDen;
+        } catch (NumberFormatException e) {
+            out.printf(vztup + " není platné číslo!\nZadávání objednávky selhalo ");
+            return -1;
+        }
+
+    }
+
+    private Objednavka vytvorObjednavku() {
+        int cisloSupermarketu;
+        int cisloZbozi;
+        int pocetZbozi;
+        String vztup = "";
+        try {
+            out.printf("Zadejte číslo zboží:");
+            vztup = in.nextLine();
+            cisloZbozi = Integer.parseInt(vztup);
+            if (cisloZbozi >= getPocetZbozi() || cisloZbozi < 0) {
+                out.printf("Zadané číslo(%d) zboží je neplatné kldané číslo a maximum je %d\n", cisloZbozi, getPocetZbozi() - 1);
+                return null;
+            }
+            out.printf("Zadejte množství zboži k objednání:");
+            vztup = in.nextLine();
+            pocetZbozi = Integer.parseInt(vztup);
+            if (pocetZbozi <= 0) {
+                out.println("Počet zboží musí být kladné nenulové číslo");
+                return null;
+            }
+            out.printf("Do jakého supermarketu to mám odvést:");
+            vztup = in.nextLine();
+            cisloSupermarketu = Integer.parseInt(vztup);
+            if (cisloSupermarketu >= getPocetSupermarketu() || cisloSupermarketu < 0) {
+                out.printf("Zadané číslo(%d) supermaketu je neplatné kldané číslo a maximum je %d\n", cisloZbozi, getPocetSupermarketu() - 1);
+                return null;
+            }
+        } catch (NumberFormatException e) {
+            out.printf(vztup + " není platné číslo!\nZadávání objednávky selhalo ");
+            return null;
+        }
+        Objednavka objednavka = new Objednavka(cisloSupermarketu, cisloZbozi, pocetZbozi);
+        out.println("Vytvořená objednávka:" + objednavka);
+        return objednavka;
     }
 
     private void next(String[] input) {
@@ -122,22 +213,12 @@ public class RucniSimulace implements Simulace {
     }
 
     @Override
-    public String getLog() {
+    public DataSet getDataSet() {
+        return simulace.getDataSet();
+    }
+
+    @Override
+    public Logujici getLog() {
         return simulace.getLog();
-    }
-
-    @Override
-    public int getSize() {
-        return simulace.getSize();
-    }
-
-    @Override
-    public Logovatelne find(String patern) {
-        return simulace.find(patern);
-    }
-
-    @Override
-    public void print(PrintWriter vystup) {
-        simulace.print(vystup);
     }
 }

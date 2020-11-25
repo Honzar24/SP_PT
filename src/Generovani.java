@@ -5,7 +5,6 @@ import java.util.Random;
 
 /**
  * Třída pro spuštění generátoru dat
- *
  */
 public class Generovani {
     static Random rand = new Random();
@@ -29,19 +28,21 @@ public class Generovani {
     /**
      * Funkce generující číslo normálním rozdělením v intervalu 0 - max.
      * Využívá metodu nextGaussian třídy Random a ověřuje jestli generované číslo náleží do intervalu.
+     *
      * @param max maximální hodnota, kterou může číslo nabývat
      * @return generované číslo
      */
-    public static int generuj_cislo(int max){
-        int in = (int) (rand.nextGaussian()*(max / 4) + (max / 2));
-        while (in > max || in < 0){
-            in =(int) (rand.nextGaussian()*(max / 4) + (max / 2));
+    public static int generuj_cislo(int max) {
+        int in = (int) (rand.nextGaussian() * (max / 4) + (max / 2));
+        while (in > max || in < 0) {
+            in = (int) (rand.nextGaussian() * (max / 4) + (max / 2));
         }
         return in;
     }
 
     /**
      * Funkce zapisující hlavičku dat do souboru.
+     *
      * @param writer sloužící k zapisování
      * @throws IOException při chybě při zapisování
      */
@@ -53,9 +54,10 @@ public class Generovani {
 
     /**
      * Funkce zapisuje pole čísel do souboru jako matici
+     *
      * @param writer sloužící k zapisování
-     * @param data pole čísel určených k zápisu
-     * @param del počet čísel v jednom řádku
+     * @param data   pole čísel určených k zápisu
+     * @param del    počet čísel v jednom řádku
      * @throws IOException
      */
     public static void zapis_matici(BufferedWriter writer, int[] data, int del) throws IOException {
@@ -69,13 +71,14 @@ public class Generovani {
 
     /**
      * Funkce vytváří pole hodnot s použitím funkce generuj_cislo()
+     *
      * @param size velikost pole
-     * @param max maximální hodnota
+     * @param max  maximální hodnota
      * @return
      */
-    public static int[] generuj_pole(int size, int max){
+    public static int[] generuj_pole(int size, int max) {
         int[] ints = new int[size];
-        for(int i = 0; i < ints.length; i++){
+        for (int i = 0; i < ints.length; i++) {
             ints[i] = generuj_cislo(max);
         }
         return ints;
@@ -83,6 +86,7 @@ public class Generovani {
 
     /**
      * Funkce spouštící generování dat a zapisující data do souboru
+     *
      * @param fileName název souboru do kterého se zapíšou vygenerovaná data
      */
     public static void generuj(String fileName) {
@@ -96,11 +100,11 @@ public class Generovani {
             writer.write("\n# BLOK: Cena prevozu jednoho zbozi c_{s,d}\n");
             zapis_matici(writer, generuj_pole(s * d, 5), s);
             writer.write("\n# BLOK: Pocatecni skladove zasoby q_{z,s}\n");
-            zapis_matici(writer, generuj_pole(z*s, 100), s);
+            zapis_matici(writer, generuj_pole(z * s, 100), s);
             writer.write("\n# BLOK: Produkce tovaren p_{d,z,t}\n");
-            zapis_matici(writer, generuj_pole(d*z*t, 100), d);
+            zapis_matici(writer, generuj_pole(d * z * t, 100), d);
             writer.write("\n# BLOK: Poptavka zbozi r_{s,z,t}\n");
-            zapis_matici(writer, generuj_pole(s*z*t, 100), s);
+            zapis_matici(writer, generuj_pole(s * z * t, 100), s);
 
         } catch (Exception e) {
             System.err.println("Chyba při zapisování do souboru.");

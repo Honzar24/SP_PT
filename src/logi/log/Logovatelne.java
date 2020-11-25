@@ -1,15 +1,12 @@
 package logi.log;
 
-/**
- * Interface umožňující třídám, které ho implementují, logovat
- */
+import java.io.PrintWriter;
+
 public interface Logovatelne extends Printable {
 
-    /**
-     * Vrátí log převedený do Stringu
-     * @return log převedený do Stringu
-     */
-    String getLog();
+    String getFullText();
+
+    String getShortText();
 
     /**
      * Vrátí velikost logu
@@ -24,4 +21,8 @@ public interface Logovatelne extends Printable {
      */
     Logovatelne find(String patern);
 
+    @Override
+    default void print(PrintWriter vystup) {
+        vystup.println(getFullText());
+    }
 }

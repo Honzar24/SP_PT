@@ -42,12 +42,17 @@ public class Tovarna {
      * @return vrací log s uloženými informacemi
      */
     public Log nastavDen(int cisloDne) {
-        Log log = new Log();
+        Log log = new Log("Továrna " + poradi + " vyhozeno");
+        int sumaVyhozenehoZbozi = 0;
         for (int i = 0; i < vyroba[cisloDne].length; i++) {
             if (sklad[i] != 0) {
-                log.log(new Message(String.format("Továrna %d vyhazuje zbozi %d v počtu %d ks", poradi, i, sklad[i]), MsgLevel.SKLAD));
+                log.log(new Message(String.format("Továrna %d v den %d vyhazuje zbozi %d v počtu %d ks", poradi, cisloDne, i, sklad[i]), MsgLevel.SKLAD));
+                sumaVyhozenehoZbozi += sklad[i];
             }
             sklad[i] = vyroba[cisloDne][i];
+        }
+        if (sumaVyhozenehoZbozi > 0) {
+            log.log(new Message(String.format("Továrna %d vyhodila v den %d celkově %d ks zboží.", poradi, cisloDne, sumaVyhozenehoZbozi), MsgLevel.SKLAD));
         }
         return log;
     }
