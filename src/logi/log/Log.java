@@ -101,9 +101,9 @@ public class Log implements Logujici {
     }
 
     /**
-     * Zjistí jestli log obsahuje zadaný podřetězec
+     * Zjistí jestli log obsahuje zadaný podřetězec, pokud se log jmenuje stejně jako hledaný podřetězec, vrací log
      * @param patern hledaný podřetězec
-     * @return Log s informacemi o nalezení
+     * @return Log s informacemi o nalezení nebo log se stejným jménem
      */
     @Override
     public Logovatelne find(String patern) {
