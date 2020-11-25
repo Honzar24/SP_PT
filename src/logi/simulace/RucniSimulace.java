@@ -29,7 +29,7 @@ public class RucniSimulace implements Simulace {
      */
     private final Simulace simulace;
     /**
-     * Úvodní text při startu ruční simulace
+     * Text nápovědy
      */
     private final String help = "Vítej v ručním ovládání\n" +
             "už jsi zjistil že existuje příkaz help\n" +
