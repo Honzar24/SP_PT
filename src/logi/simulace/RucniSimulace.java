@@ -38,7 +38,8 @@ public class RucniSimulace implements Simulace {
             "\texit\nUkončí simulaci okamžitě i její ovládání\n" +
             "\tend | run\nDokončí simulaci a ukončí ovládání!\n" +
             "\tinfo [hledaný výraz]\nNalezne v logu všechny výskyty hledaného výrazu." +
-            "\tlog\nVypíše dosavadní log simulace obsahující všechny informace.";
+            "\tlog\nVypíše dosavadní log simulace obsahující všechny informace." +
+            "\tobjednávka\nspustí zadávání objednávky uživatelem";
     /**
      * Informace o konci simulace
      */
